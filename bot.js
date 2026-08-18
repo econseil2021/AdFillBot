@@ -201,7 +201,9 @@ const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const SYSTEM_PROMPT = `Tu es AdFillBot, l'assistant Telegram officiel d'AdFill — un outil d'automatisation de remplissage d'annonces sur Avito.ma.
 
 RÈGLES STRICTES :
-- Réponds UNIQUEMENT en français.
+- Détecte la langue de l'utilisateur et réponds dans la MÊME langue (français ou arabe).
+- Si l'utilisateur écrit en arabe → réponds en arabe.
+- Si l'utilisateur écrit en français → réponds en français.
 - Sois bref et direct (2-4 lignes max sauf si l'utilisateur demande plus de détails).
 - Utilise un ton amical et professionnel.
 - Si tu ne connais pas la réponse, dis-le honnêtement et oriente vers le support (adfillpro@gmail.com).
@@ -257,20 +259,27 @@ async function askAI(userMessage) {
   }
 }
 
-function faqCategoryKeyboard() {
+function faqCategoryKeyboard(lang) {
+  const useAr = lang === 'ar';
   return inlineKeyboard(
-    FAQ_DATA.categories.map((cat) => [{ text: cat.label, callback_data: 'faq:cat:' + cat.id }])
+    FAQ_DATA.categories.map((cat) => {
+      const label = useAr && cat.ar_label ? cat.ar_label : cat.label;
+      return [{ text: label, callback_data: 'faq:cat:' + cat.id }];
+    })
   );
 }
 
-function faqQuestionKeyboard(catId) {
+function faqQuestionKeyboard(catId, lang) {
   const cat = FAQ_DATA.categories.find((c) => c.id === catId);
   if (!cat) return null;
+  const useAr = lang === 'ar';
   const rows = cat.questions.slice(0, 8).map((q, i) => {
-    const preview = q.keywords[0].substring(0, 35);
-    return [{ text: '❓ ' + preview + (q.keywords[0].length > 35 ? '…' : ''), callback_data: 'faq:q:' + catId + ':' + i }];
+    const kw = useAr && q.ar_keywords ? q.ar_keywords[0] : q.keywords[0];
+    const preview = kw.substring(0, 35);
+    return [{ text: '❓ ' + preview + (kw.length > 35 ? '…' : ''), callback_data: 'faq:q:' + catId + ':' + i }];
   });
-  rows.push([{ text: '◀️ Retour', callback_data: 'faq:back' }]);
+  const backLabel = useAr ? 'العودة' : '◀️ Retour';
+  rows.push([{ text: backLabel, callback_data: 'faq:back' }]);
   return inlineKeyboard(rows);
 }
 
@@ -278,6 +287,36 @@ function faqQuestionKeyboard(catId) {
 function generateOTP() {
   return String(Math.floor(1000 + Math.random() * 9000));
 }
+
+// ---------------- Détection de langue ----------------
+function isArabic(text) {
+  const arabicChars = (text.match(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/g) || []).length;
+  return arabicChars > text.length * 0.2;
+}
+
+const MSG = {
+  welcome: (t) => isArabic(t) ? 'مرحباً في بيتا AdFill 🚀\n\nAdFill يملأ إعلاناتك تلقائياً على Avito.ma.\n\nجرّب التطبيق وأخبرنا برأيك !' : CONFIG.welcomeText,
+  welcomeBack: (t) => isArabic(t) ? '👋 أهلاً بعودتك! أنت مسجل بالفعل.\nحمّل مرة أخرى أو اطرح سؤالاً :' : '👋 Bon retour ! Vous êtes déjà enregistré.\nTéléchargez à nouveau ou posez une question :',
+  platformChoice: (t, p) => isArabic(t) ? '📱 شكراً لاختيارك : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nلفتح الملفات، سجّل نفسك :\n📞 أرسل <b>رقم هاتفك</b> (مع الرمز الدولي) :' : '📱 Merci pour votre choix : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nPour débloquer les fichiers, enregistrez-vous :\n📞 Envoyez votre <b>numéro de téléphone</b> (avec indicatif) :',
+  invalidPhone: (t) => isArabic(t) ? '⚠️ هذا الرقم غير صالح. أرسل رقماً مع الرمز الدولي، مثال : +212 6 12 34 56 78' : '⚠️ Ce numéro ne semble pas valide. Envoyez un numéro avec indicatif, ex : +212 6 12 34 56 78',
+  phoneUsed: (t) => isArabic(t) ? '⚠️ هذا الرقم مسجل لحساب آخر. استخدم رقماً آخر أو تواصل مع الدعم.' : '⚠️ Ce numéro est déjà enregistré pour un autre compte. Utilisez un autre numéro ou contactez le support.',
+  otpSent: (t, code) => isArabic(t) ? '📱 <b>التحقق من الرقم</b>\n\nتم إرسال رمز التحقق على هاتفك عبر Telegram.\n\n🔑 الرمز الخاص بك : <b>' + code + '</b>\n\nأرسل هذا الرمز للتحقق من رقمك :' : '📱 <b>Vérification du numéro</b>\n\nUn code de vérification a été envoyé sur votre téléphone via Telegram.\n\n🔑 Votre code : <b>' + code + '</b>\n\nEnvoyez ce code pour valider votre numéro :',
+  otpWrong: (t) => isArabic(t) ? '❌ الرمز غير صحيح. حاول مرة أخرى أو أرسل /annuler للبدء من جديد.' : '❌ Code incorrect. Réessayez ou envoyez /annuler pour recommencer.',
+  otpOk: (t) => isArabic(t) ? '✅ تم التحقق من الرقم ! الآن، <b>اسمك الكامل</b> :' : '✅ Numéro vérifié ! Maintenant, votre <b>nom et prénom</b> :',
+  invalidName: (t) => isArabic(t) ? '⚠️ اسمك قصير جداً. أرسل اسمك الكامل، مثال : أحمد بنعلي' : '⚠️ Votre nom est un peu court. Envoyez votre nom et prénom, ex : Ahmed Benali',
+  askKey: (t) => isArabic(t) ? '🔑 هل لديك <b>مفتاح ترخيص</b> ؟ (اختياري للاختبار)' : '🔑 Avez-vous une <b>clé de licence</b> ? (facultatif pour le test bêta)',
+  keyVerifying: (t) => isArabic(t) ? '⏳ جاري التحقق من مفتاحك…' : '⏳ Vérification de votre clé…',
+  keyValid: (t, pack) => isArabic(t) ? '✅ مفتاح صالح — الباقة <b>' + (pack || '') + '</b> !\nجاري فتح الملفات.' : '✅ Clé valide — pack <b>' + (pack || '') + '</b> !\nJe débloque maintenant les fichiers.',
+  keyInvalid: (t, err) => isArabic(t) ? '⚠️ المفتاح غير معروف : <i>' + (err || 'مفتاح غير صالح') + '</i>.\nللاختبار، يمكنك المتابعة بدون مفتاح (تجربة مجانية متاحة في التطبيق).\nهل تريد المتابعة ؟' : '⚠️ Clé non reconnue : <i>' + (err || 'Clé invalide') + '</i>.\nPour ce test bêta, vous pouvez continuer sans clé (essai gratuit disponible dans l\u2019app).\nSouhaitez-vous continuer ?',
+  noKey: (t) => isArabic(t) ? '👍 لا مشكلة — التجربة المجانية متاحة في التطبيق.' : '👍 Pas de problème — l\u2019essai gratuit est disponible dans l\u2019application.',
+  sent: (t) => isArabic(t) ? '✅ تم إرسال الرابط. اختبر جيداً ! في حالة مشكلة، تواصل مع الدعم.' : '✅ Lien envoyé. Bon test ! En cas de problème, contacte le support.',
+  androidNotReady: (t) => isArabic(t) ? '⚠️ رابط Android غير مُعد بعد. تواصل مع الدعم.' : '⚠️ Le lien Android n\u2019est pas encore configuré. Contacte le support.',
+  windowsNotReady: (t) => isArabic(t) ? '⚠️ روابط Windows غير مُعدة بعد. تواصل مع الدعم.' : '⚠️ Les liens Windows ne sont pas encore configurés. Contacte le support.',
+  cancel: (t) => isArabic(t) ? '🔄 تم الإلغاء. أرسل /start للبدء من جديد.' : '🔄 Processus annulé. Tapez /start pour recommencer.',
+  help: (t) => isArabic(t) ? 'ℹ️ <b>مساعدة AdFill</b>\n\nاختر موضوعاً أو اطرح سؤالك مباشرة :' : 'ℹ️ <b>Aide AdFill</b>\n\nChoisissez un sujet ou posez votre question directement :',
+  fallback: (t) => isArabic(t) ? '🤖 اطرح سؤالك أو أرسل /aide لعرض المواضيع المتاحة.\nللبدء، أرسل /start.' : '🤖 Posez votre question ou tapez /aide pour voir les sujets disponibles.\nPour commencer, tapez /start.',
+  unknownCmd: (t) => isArabic(t) ? 'أمر غير معروف. أرسل /start أو /aide' : 'Commande inconnue. Tapez /start ou /aide',
+};
 
 // ---------------- États de dialogue ----------------
 const states = new Map(); // telegramId -> { step, platform, otp }
@@ -291,35 +330,31 @@ async function handleMessage(msg) {
   const existing = getTester(tgId);
   const st = states.get(tgId) || { step: 'start' };
 
+  // Détecter et stocker la langue
+  if (text && !text.startsWith('/')) {
+    st.lang = isArabic(text) ? 'ar' : 'fr';
+    states.set(tgId, st);
+  }
+
   if (text === '/start') {
     if (existing && existing.platform) {
       states.set(tgId, { step: 'done', platform: existing.platform });
-      await sendMessage(
-        chatId,
-        '👋 Bon retour ! Vous êtes déjà enregistré.\n' +
-        'Téléchargez à nouveau ou posez une question :',
-        registeredMenuKeyboard()
-      );
+      await sendMessage(chatId, MSG.welcomeBack(text), registeredMenuKeyboard());
       return;
     }
     states.set(tgId, { step: 'pick', platform: null });
-    await sendMessage(chatId, CONFIG.welcomeText, mainMenuKeyboard());
+    await sendMessage(chatId, MSG.welcome(text), mainMenuKeyboard());
     return;
   }
 
   if (text === '/aide' || text === '/help') {
-    await sendMessage(
-      chatId,
-      'ℹ️ <b>Aide AdFill</b>\n\n' +
-      'Choisissez un sujet ou posez votre question directement :',
-      faqCategoryKeyboard()
-    );
+    await sendMessage(chatId, MSG.help(text), faqCategoryKeyboard());
     return;
   }
 
   if (text === '/annuler') {
     states.set(tgId, { step: 'start' });
-    await sendMessage(chatId, '🔄 Processus annulé. Tapez /start pour recommencer.');
+    await sendMessage(chatId, MSG.cancel(text));
     return;
   }
 
@@ -327,12 +362,12 @@ async function handleMessage(msg) {
   if (st.step === 'phone') {
     const phoneDigits = text.replace(/\D/g, '');
     if (phoneDigits.length < 8) {
-      await sendMessage(chatId, '⚠️ Ce numéro ne semble pas valide. Envoyez un numéro avec indicatif, ex : +212 6 12 34 56 78');
+      await sendMessage(chatId, MSG.invalidPhone(text));
       return;
     }
     const existingPhone = findTesterByPhone(text);
     if (existingPhone && String(existingPhone.telegramId) !== tgId) {
-      await sendMessage(chatId, '⚠️ Ce numéro est déjà enregistré pour un autre compte. Utilisez un autre numéro ou contactez le support.');
+      await sendMessage(chatId, MSG.phoneUsed(text));
       return;
     }
 
@@ -343,12 +378,7 @@ async function handleMessage(msg) {
     st.phone = text;
     states.set(tgId, st);
 
-    await sendMessage(chatId,
-      '📱 <b>Vérification du numéro</b>\n\n' +
-      'Un code de vérification a été envoyé sur votre téléphone via Telegram.\n\n' +
-      '🔑 Votre code : <b>' + otp + '</b>\n\n' +
-      'Envoyez ce code pour valider votre numéro :'
-    );
+    await sendMessage(chatId, MSG.otpSent(text, otp));
     return;
   }
 
@@ -356,7 +386,7 @@ async function handleMessage(msg) {
   if (st.step === 'otp') {
     const enteredOtp = text.replace(/\D/g, '');
     if (enteredOtp !== st.otp) {
-      await sendMessage(chatId, '❌ Code incorrect. Réessayez ou envoyez /annuler pour recommencer.');
+      await sendMessage(chatId, MSG.otpWrong(text));
       return;
     }
 
@@ -371,14 +401,14 @@ async function handleMessage(msg) {
     st.otp = null;
     states.set(tgId, st);
 
-    await sendMessage(chatId, '✅ Numéro vérifié ! Maintenant, votre <b>nom et prénom</b> :');
+    await sendMessage(chatId, MSG.otpOk(text));
     return;
   }
 
   // ---- Saisie du nom ----
   if (st.step === 'name') {
     if (text.length < 2) {
-      await sendMessage(chatId, '⚠️ Votre nom est un peu court. Envoyez votre nom et prénom, ex : Ahmed Benali');
+      await sendMessage(chatId, MSG.invalidName(text));
       return;
     }
     const testers = loadTesters();
@@ -393,7 +423,7 @@ async function handleMessage(msg) {
 
     st.step = 'key';
     states.set(tgId, st);
-    await sendMessage(chatId, '🔑 Avez-vous une <b>clé de licence</b> ? (facultatif pour le test bêta)', keyKeyboard());
+    await sendMessage(chatId, MSG.askKey(text), keyKeyboard());
     return;
   }
 
@@ -401,7 +431,7 @@ async function handleMessage(msg) {
   if (st.step === 'key') {
     const trimmed = text.trim();
     if (!trimmed) return;
-    await sendMessage(chatId, '⏳ Vérification de votre clé…');
+    await sendMessage(chatId, MSG.keyVerifying(text));
     const result = await validateLicenseKey(trimmed);
 
     const testers = loadTesters();
@@ -413,24 +443,14 @@ async function handleMessage(msg) {
       tester.licensePack = result.pack_slug || '';
       saveTesters(testers);
       logEvent(tester, 'license_ok', { pack: tester.licensePack });
-      await sendMessage(
-        chatId,
-        '✅ Clé valide — pack <b>' + (result.pack_slug || '') + '</b> !\n' +
-        'Je débloque maintenant les fichiers.'
-      );
+      await sendMessage(chatId, MSG.keyValid(text, result.pack_slug));
     } else {
-      const err = (result && result.error) || 'Clé invalide';
+      const err = (result && result.error) || (isArabic(text) ? 'مفتاح غير صالح' : 'Clé invalide');
       tester.licenseKeyHash = hashKey(trimmed);
       tester.licenseValid = false;
       saveTesters(testers);
       logEvent(tester, 'license_invalid', { error: err });
-      await sendMessage(
-        chatId,
-        '⚠️ Clé non reconnue : <i>' + err + '</i>.\n' +
-        'Pour ce test bêta, vous pouvez continuer sans clé (essai gratuit disponible dans l\u2019app).\n' +
-        'Souhaitez-vous continuer ?',
-        keyKeyboard()
-      );
+      await sendMessage(chatId, MSG.keyInvalid(text, err), keyKeyboard());
       states.set(tgId, { step: 'key', platform: st.platform });
       return;
     }
@@ -451,11 +471,7 @@ async function handleMessage(msg) {
     }
   }
 
-  await sendMessage(
-    chatId,
-    '🤖 Posez votre question ou tapez /aide pour voir les sujets disponibles.\n' +
-    'Pour commencer, tapez /start.'
-  );
+  await sendMessage(chatId, MSG.fallback(text));
 }
 
 // ---------------- Callbacks (boutons inline) ----------------
@@ -485,19 +501,15 @@ async function handleCallback(query) {
     st.platform = platform;
     st.step = 'phone';
     states.set(tgId, st);
-    await sendMessage(
-      chatId,
-      '📱 Merci pour votre choix : <b>' + (platform === 'android' ? 'Android' : 'Windows') + '</b>.\n\n' +
-      'Pour débloquer les fichiers, enregistrez-vous :\n' +
-      '📞 Envoyez votre <b>numéro de téléphone</b> (avec indicatif) :'
-    );
+    await sendMessage(chatId, MSG.platformChoice(text, platform));
     return;
   }
 
   if (data === 'key:yes') {
     st.step = 'key';
     states.set(tgId, st);
-    await sendMessage(chatId, '🔑 Envoyez votre <b>clé de licence</b> (ex : ADFILL-XXXX-XXXX) :');
+    const lang = st.lang || 'fr';
+    await sendMessage(chatId, isArabic(lang) ? '🔑 أرسل <b>مفتاح الترخيص</b> (مثال : ADFILL-XXXX-XXXX) :' : '🔑 Envoyez votre <b>clé de licence</b> (ex : ADFILL-XXXX-XXXX) :');
     return;
   }
 
@@ -513,19 +525,20 @@ async function handleCallback(query) {
     }
     st.step = 'done';
     states.set(tgId, st);
-    await sendMessage(chatId, '👍 Pas de problème — l\u2019essai gratuit est disponible dans l\u2019application.');
+    await sendMessage(chatId, MSG.noKey(text));
     await unlock(chatId, tester || { telegramId: tgId, platform: st.platform });
     return;
   }
 
   // ---- FAQ callbacks ----
   if (data === 'faq:back') {
+    const lang = st.lang || 'fr';
     await callApi('editMessageText', {
       chat_id: chatId,
       message_id: query.message.message_id,
-      text: 'ℹ️ <b>Aide AdFill</b>\n\nChoisissez un sujet ou posez votre question directement :',
+      text: MSG.help(lang),
       parse_mode: 'HTML',
-      reply_markup: faqCategoryKeyboard(),
+      reply_markup: faqCategoryKeyboard(lang),
     });
     return;
   }
@@ -534,12 +547,15 @@ async function handleCallback(query) {
     const catId = data.replace('faq:cat:', '');
     const cat = FAQ_DATA.categories.find((c) => c.id === catId);
     if (!cat) return;
+    const lang = st.lang || 'fr';
+    const catLabel = isArabic(lang) && cat.ar_label ? cat.ar_label : cat.label;
+    const chooseQ = isArabic(lang) ? 'اختر سؤالاً :' : 'Choisissez une question :';
     await callApi('editMessageText', {
       chat_id: chatId,
       message_id: query.message.message_id,
-      text: '📂 <b>' + cat.label + '</b>\n\nChoisissez une question :',
+      text: '📂 <b>' + catLabel + '</b>\n\n' + chooseQ,
       parse_mode: 'HTML',
-      reply_markup: faqQuestionKeyboard(catId),
+      reply_markup: faqQuestionKeyboard(catId, lang),
     });
     return;
   }
@@ -551,20 +567,25 @@ async function handleCallback(query) {
     const cat = FAQ_DATA.categories.find((c) => c.id === catId);
     if (!cat || !cat.questions[qIdx]) return;
     const q = cat.questions[qIdx];
+    const lang = st.lang || 'fr';
+    const answer = isArabic(lang) && q.ar_answer ? q.ar_answer : q.answer;
+    const catLabel = isArabic(lang) && cat.ar_label ? cat.ar_label : cat.label;
+    const backLabel = isArabic(lang) ? 'العودة إلى ' + catLabel : '◀️ Retour à ' + catLabel;
+    const homeLabel = isArabic(lang) ? '🏠 قائمة المساعدة' : '🏠 Menu aide';
     await callApi('editMessageText', {
       chat_id: chatId,
       message_id: query.message.message_id,
-      text: q.answer,
+      text: answer,
       parse_mode: 'HTML',
       reply_markup: inlineKeyboard([
-        [{ text: '◀️ Retour à ' + cat.label, callback_data: 'faq:cat:' + catId }],
-        [{ text: '🏠 Menu aide', callback_data: 'faq:back' }],
+        [{ text: backLabel, callback_data: 'faq:cat:' + catId }],
+        [{ text: homeLabel, callback_data: 'faq:back' }],
       ]),
     });
     return;
   }
 
-  await sendMessage(chatId, 'Commande inconnue. Tapez /start ou /aide');
+  await sendMessage(chatId, MSG.unknownCmd(text));
 }
 
 // ---------------- Boucle de polling ----------------

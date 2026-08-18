@@ -3,189 +3,266 @@
     {
       "id": "general",
       "label": "📋 Général",
+      "ar_label": "📋 عام",
       "keywords": ["qu'est-ce", "c'est quoi", "adfill", "fonctionne", "sert à", "pourquoi", "quoi"],
       "questions": [
         {
           "keywords": ["qu'est-ce", "c'est quoi", "adfill", "décrire", "présentation"],
-          "answer": "AdFill est un outil d'automatisation qui remplit vos annonces sur Avito.ma automatiquement. Il sélectionne la catégorie, remplit le titre, la description, le prix, la localisation, les photos et toutes les caractéristiques. Disponible sur Android et Windows."
+          "ar_keywords": ["شنو هو", "شنو", "ادفيل", "وصف", "تعريف"],
+          "answer": "AdFill est un outil d'automatisation qui remplit vos annonces sur Avito.ma automatiquement. Il sélectionne la catégorie, remplit le titre, la description, le prix, la localisation, les photos et toutes les caractéristiques. Disponible sur Android et Windows.",
+          "ar_answer": "AdFill أداة أتمتة تملأ إعلاناتك على Avito.ma تلقائياً. تختار الفئة وتملأ العنوان والوصف والسعر والموقع والصور وجميع المواصفات. متاحة على Android و Windows."
         },
         {
           "keywords": ["avito", "fonctionne avito", "compatible"],
-          "answer": "AdFill est spécialement conçu pour Avito.ma (site marocain). Il gère toutes les catégories : véhicules, immobilier, électronique, maison, etc."
+          "ar_keywords": ["افيت", "يفتري على افيت", "متوافق"],
+          "answer": "AdFill est spécialement conçu pour Avito.ma (site marocain). Il gère toutes les catégories : véhicules, immobilier, électronique, maison, etc.",
+          "ar_answer": "AdFill مصمم خصيصاً لـ Avito.ma (الموقع المغربي). يتعامل مع جميع الفئات: السيارات والعقارات والإلكترونيات والمنزل وغيرها."
         },
         {
           "keywords": ["automatis", "remplit", "remplissage", "comment ça marche"],
-          "answer": "AdFill utilise un robot qui remplit les formulaires Avito à votre place. Vous créez l'annonce dans l'app avec titre, description, photos, prix et caractéristiques. Ensuite, AdFill ouvre Avito et remplit tout automatiquement. Il reste des délais humains pour éviter la détection."
+          "ar_keywords": ["أتمتة", "يملا", "تعبئة", "كيفاش خدام"],
+          "answer": "AdFill utilise un robot qui remplit les formulaires Avito à votre place. Vous créez l'annonce dans l'app avec titre, description, photos, prix et caractéristiques. Ensuite, AdFill ouvre Avito et remplit tout automatiquement. Il reste des délais humains pour éviter la détection.",
+          "ar_answer": "AdFill يستخدم روبوت يملأ نماذج Avito نيابة عنك. أنت تنشئ الإعلان في التطبيق بالعنوان والوصف والصور والسعر والمواصفات. ثم AdFill يفتح Avito ويملا كل شيء تلقائياً مع تأخيرات بشرية لتجنب الكشف."
         }
       ]
     },
     {
       "id": "installation",
       "label": "📱 Installation",
+      "ar_label": "📱 التثبيت",
       "keywords": ["installer", "installation", "télécharger", "download", "apk", "exe", "windows", "android"],
       "questions": [
         {
           "keywords": ["android", "apk", "installer", "télécharger", "mobile"],
-          "answer": "📥 <b>Installation Android :</b>\n1. Téléchargez l'APK depuis le lien envoyé par le bot\n2. Ouvrez le fichier APK\n3. Autorisez l'installation d'applications inconnues si demandé\n4. Ouvrez AdFill et saisissez votre clé de licence\n\n⚠️ Android 9+ requis (SDK 28 minimum)."
+          "ar_keywords": ["اندرويد", "APK", "تثبيت", "تحميل", "موبايل"],
+          "answer": "📥 <b>Installation Android :</b>\n1. Téléchargez l'APK depuis le lien envoyé par le bot\n2. Ouvrez le fichier APK\n3. Autorisez l'installation d'applications inconnues si demandé\n4. Ouvrez AdFill et saisissez votre clé de licence\n\n⚠️ Android 9+ requis (SDK 28 minimum).",
+          "ar_answer": "📥 <b>تثبيت Android :</b>\n1. حمّل ملف APK من الرابط المرسل عبر البوت\n2. افتح ملف APK\n3. اسمح بتثبيت التطبيقات المجهولة إذا طُلب\n4. افتح AdFill وأدخل مفتاح الترخيص\n\n⚠️ Android 9+ مطلوب (SDK 28 كحد أدنى)."
         },
         {
           "keywords": ["windows", "exe", "pc", "portable", "setup", "installer windows"],
-          "answer": "💻 <b>Installation Windows :</b>\n1. Téléchargez AdFill-1.9.3-portable.exe (aucune installation) ou AdFill-1.9.3-setup.exe (installation)\n2. Lancez le fichier\n3. Saisissez votre clé de licence\n\n⚠️ Windows 10/11 requis. Le mode portable ne nécessite aucune installation."
+          "ar_keywords": ["ويندوز", "EXE", "كمبيوتر", "بورتابل", "تثبيت ويندوز"],
+          "answer": "💻 <b>Installation Windows :</b>\n1. Téléchargez AdFill-1.9.3-portable.exe (aucune installation) ou AdFill-1.9.3-setup.exe (installation)\n2. Lancez le fichier\n3. Saisissez votre clé de licence\n\n⚠️ Windows 10/11 requis. Le mode portable ne nécessite aucune installation.",
+          "ar_answer": "💻 <b>تثبيت Windows :</b>\n1. حمّل AdFill-1.9.3-portable.exe (بدون تثبيت) أو AdFill-1.9.3-setup.exe (مع تثبيت)\n2. شغّل الملف\n3. أدخل مفتاح الترخيص\n\n⚠️ Windows 10/11 مطلوب. الوضع المحمول لا يحتاج تثبيت."
         },
         {
           "keywords": ["android inconnu", "applications inconnues", "sécurité", "bloqué"],
-          "answer": "📱 <b>Autoriser l'installation :</b>\nAllez dans <b>Paramètres → Sécurité → Sources inconnues</b> et activez l'option. Sur Android 8+, cochez « Autoriser cette source ». Puis réinstallez l'APK."
+          "ar_keywords": ["اندرويد مجهول", "تطبيقات مجهولة", "أمان", "محجوب"],
+          "answer": "📱 <b>Autoriser l'installation :</b>\nAllez dans <b>Paramètres → Sécurité → Sources inconnues</b> et activez l'option. Sur Android 8+, cochez « Autoriser cette source ». Puis réinstallez l'APK.",
+          "ar_answer": "📱 <b>السماح بالتثبيت :</b>\nانتقل إلى <b>الإعدادات → الأمان →مصادر مجهولة</b> وفعّل الخيار. على Android 8+، ضع علامة «السماح بهذه المصدر». ثم أعد تثبيت APK."
         },
         {
           "keywords": ["chrome", "navigateur", "puppeteer", "fichier requis"],
-          "answer": "AdFill utilise Chrome en arrière-plan (via Puppeteer). Un premier lancement peut prendre quelques secondes de plus pour télécharger Chrome si absent. Aucune intervention requise."
+          "ar_keywords": ["كروم", "متصفح", "ملف مطلوب"],
+          "answer": "AdFill utilise Chrome en arrière-plan (via Puppeteer). Un premier lancement peut prendre quelques secondes de plus pour télécharger Chrome si absent. Aucune intervention requise.",
+          "ar_answer": "AdFill يستخدم Chrome في الخلفية ( عبر Puppeteer). قد يستغرق التشغيل الأول بضع ثوانٍ إضافية لتنزيل Chrome إذا لم يكن مثبتاً. لا تدخل مطلوب."
         }
       ]
     },
     {
       "id": "licence",
       "label": "🔑 Licence & Packs",
+      "ar_label": "🔑 التراخيص والباقات",
       "keywords": ["licence", "clé", "activation", "pack", "essai", "gratuit", "tarif", "prix", "abonnement", "expiré", "invalide"],
       "questions": [
         {
           "keywords": ["essai", "gratuit", "free", "tester", "sans payer", "démonstration"],
-          "answer": "🎁 <b>Essai gratuit 7 jours :</b>\nAu premier lancement, AdFill vous propose un essai gratuit de 7 jours (pack \"free\") avec 3 annonces. Pas besoin de clé — activez-le directement depuis l'application."
+          "ar_keywords": ["تجربة", "مجاني", "فري", "جرب", "بدون دفع"],
+          "answer": "🎁 <b>Essai gratuit 7 jours :</b>\nAu premier lancement, AdFill vous propose un essai gratuit de 7 jours (pack \"free\") avec 3 annonces. Pas besoin de clé — activez-le directement depuis l'application.",
+          "ar_answer": "🎁 <b>تجربة مجانية 7 أيام :</b>\nعند التشغيل الأول، يعرض AdFill تجربة مجانية لمدة 7 أيام (باقة \"free\") مع 3 إعلانات. لا حاجة لمفتاح — فعّلها مباشرة من التطبيق."
         },
         {
           "keywords": ["tarif", "prix", "coût", "combien", "abonnement", "mensuel"],
-          "answer": "💰 <b>Packs disponibles :</b>\n\n• <b>Free</b> — 3 produits, 1 machine, 0 DH\n• <b>Basic</b> — 10 produits, 1 machine, 299 DH/mois\n• <b>Business</b> — 100 produits, 3 machines, 599 DH/mois\n• <b>Business Pro</b> — 200 produits, 5 machines, IA + images, 1199 DH/mois"
+          "ar_keywords": ["سعر", "ثمن", "التكلفة", "شحال", "اشتراك", "شهري"],
+          "answer": "💰 <b>Packs disponibles :</b>\n\n• <b>Free</b> — 3 produits, 1 machine, 0 DH\n• <b>Basic</b> — 10 produits, 1 machine, 299 DH/mois\n• <b>Business</b> — 100 produits, 3 machines, 599 DH/mois\n• <b>Business Pro</b> — 200 produits, 5 machines, IA + images, 1199 DH/mois",
+          "ar_answer": "💰 <b>الباقات المتاحة :</b>\n\n• <b>Free</b> — 3 منتجات، جهاز واحد، 0 درهم\n• <b>Basic</b> — 10 منتجات، جهاز واحد، 299 درهم/شهر\n• <b>Business</b> — 100 منتج، 3 أجهزة، 599 درهم/شهر\n• <b>Business Pro</b> — 200 منتج، 5 أجهزة، ذكاء اصطناعي + صور، 1199 درهم/شهر"
         },
         {
           "keywords": ["pack", "basic", "business", "pro", "choisir pack", "passer pack"],
-          "answer": "Pour changer de pack :\n1. Ouvrez AdFill\n2. Allez dans le menu « Packs » (Android) ou « Choisir un pack » (Windows)\n3. Sélectionnez votre pack\n4. Saisissez la clé de licence correspondante\n\nLes packs Basic et Business Pro incluent les images. Business Pro inclut aussi la réécriture IA des descriptions."
+          "ar_keywords": ["باقة", "تشير باقة", "غيير باقة"],
+          "answer": "Pour changer de pack :\n1. Ouvrez AdFill\n2. Allez dans le menu « Packs » (Android) ou « Choisir un pack » (Windows)\n3. Sélectionnez votre pack\n4. Saisissez la clé de licence correspondante\n\nLes packs Basic et Business Pro incluent les images. Business Pro inclut aussi la réécriture IA des descriptions.",
+          "ar_answer": "لغيير الباقة:\n1. افتح AdFill\n2. انتقل إلى قائمة «الباقات» (Android) أو «اختيار باقة» (Windows)\n3. اختر باقتك\n4. أدخل مفتاح الترخيص المقابل\n\nباقتا Basic و Business Pro تتضمنان الصور. Business Pro تتضمن أيضاً إعادة كتابة الأوصاف بالذكاء الاصطناعي."
         },
         {
           "keywords": ["clé", "licence", "activation", "valider", "ma clé"],
-          "answer": "🔑 <b>Activer une licence :</b>\n1. Ouvrez AdFill\n2. Sur l'écran de bienvenue, saisissez votre clé de licence\n3. Appuyez sur « Valider »\n4. L'application vérifie et active votre pack\n\nSi vous avez un essai gratuit actif, la clé le remplace."
+          "ar_keywords": ["مفتاح", "ترخيص", "تفعيل", "تحقق", "مفتاحي"],
+          "answer": "🔑 <b>Activer une licence :</b>\n1. Ouvrez AdFill\n2. Sur l'écran de bienvenue, saisissez votre clé de licence\n3. Appuyez sur « Valider »\n4. L'application vérifie et active votre pack\n\nSi vous avez un essai gratuit actif, la clé le remplace.",
+          "ar_answer": "🔑 <b>تفعيل الترخيص :</b>\n1. افتح AdFill\n2. على شاشة الترحيب، أدخل مفتاح الترخيص\n3. اضغط «تحقق»\n4. يتحقق التطبيق ويُفعّل باقتك\n\nإذا كان لديك تجربة مجانية نشطة، يحل المفتاح محلها."
         },
         {
           "keywords": ["expiré", "expiration", "fini", "terminé", "plus de jours"],
-          "answer": "⏰ Si votre licence est expirée :\n• L'application affiche « Licence expirée »\n• Renouvelez votre abonnement ou saisissez une nouvelle clé\n• Vérifiez la date d'expiration dans l'écran « Client » d'AdFill\n\nUn essai gratuit dure 7 jours. Les packs payants sont mensuels."
+          "ar_keywords": ["منتهي", "انتهت", "خلص", "ما عادش", "ما بقاش أيام"],
+          "answer": "⏰ Si votre licence est expirée :\n• L'application affiche « Licence expirée »\n• Renouvelez votre abonnement ou saisissez une nouvelle clé\n• Vérifiez la date d'expiration dans l'écran « Client » d'AdFill\n\nUn essai gratuit dure 7 jours. Les packs payants sont mensuels.",
+          "ar_answer": "⏰ إذا انتهى ترخيصك:\n• يعرض التطبيق «الترخيص منتهي»\n• جدّد اشتراكك أو أدخل مفتاحاً جديداً\n• تحقق من تاريخ الانتهاء في شاشة «العميل» في AdFill\n\nالتجربة المجانية تدوم 7 أيام. الباقة المدفوعة شهرية."
         },
         {
           "keywords": ["invalide", "errone", "marche pas", "rejeté", "refusé"],
-          "answer": "❌ Si votre clé est rejetée :\n1. Vérifiez l'orthographe (pas d'espace en trop)\n2. Vérifiez que la clé correspond au bon pack\n3. Vérifiez que la clé n'est pas déjà utilisée sur un autre appareil\n4. Contactez le support si le problème persiste"
+          "ar_keywords": ["غير صالح", "غلط", "ما خدامش", "مرفوض", "مرفوض"],
+          "answer": "❌ Si votre clé est rejetée :\n1. Vérifiez l'orthographe (pas d'espace en trop)\n2. Vérifiez que la clé correspond au bon pack\n3. Vérifiez que la clé n'est pas déjà utilisée sur un autre appareil\n4. Contactez le support si le problème persiste",
+          "ar_answer": "❌ إذا رُفض مفتاحك:\n1. تحقق من الإملاء (لا مسافات زائدة)\n2. تحقق من أن المفتاح يطابق الباقة الصحيحة\n3. تحقق من أن المفتاح غير مستخدم على جهاز آخر\n4. تواصل مع الدعم إذا استمرت المشكلة"
         },
         {
           "keywords": ["machine", "appareil", "téléphone", "changer", "désactiver"],
-          "answer": "Un pack Basic permet 1 machine. Business permet 3 machines. Business Pro permet 5 machines.\n\nSi vous changez de téléphone/PC, la clé se désactive automatiquement de l'ancien appareil après quelques heures d'inactivité."
+          "ar_keywords": ["جهاز", "موبايل", "غيير", "إلغاء"],
+          "answer": "Un pack Basic permet 1 machine. Business permet 3 machines. Business Pro permet 5 machines.\n\nSi vous changez de téléphone/PC, la clé se désactive automatiquement de l'ancien appareil après quelques heures d'inactivité.",
+          "ar_answer": "باقة Basic تسمح بجهاز واحد. Business تسمح بـ 3 أجهزة. Business Pro تسمح بـ 5 أجهزة.\n\nإذا غيّرت الهاتف/الكمبيوتر، يتم إلغاء تفعيل المفتاح تلقائياً من الجهاز القديم بعد ساعات من عدم النشاط."
         }
       ]
     },
     {
       "id": "fonctionnalites",
       "label": "⚡ Fonctionnalités",
+      "ar_label": "⚡ الميزات",
       "keywords": ["fonctionnalité", "fait quoi", "possibilité", "catégorie", "annonce", "ville", "quartier", "marque", "modèle", "photo", "description", "prix", "ia", "intelligence"],
       "questions": [
         {
           "keywords": ["catégorie", "catégories", "type annonce"],
-          "answer": "AdFill gère 34+ catégories Avito :\n\n🚗 Véhicules : voitures, motos, camions, pièces\n🏠 Immobilier : appartements, maisons, bureaux, magasins, terrains\n📱 Électronique : smartphones, tablettes, ordinateurs, TV, consoles\n🏠 Maison : meubles, électroménager, décoration\nEt plus : vélos, instruments, vêtements, bébé, animalerie, sport..."
+          "ar_keywords": ["فئة", "فئات", "نوع إعلان"],
+          "answer": "AdFill gère 34+ catégories Avito :\n\n🚗 Véhicules : voitures, motos, camions, pièces\n🏠 Immobilier : appartements, maisons, bureaux, magasins, terrains\n📱 Électronique : smartphones, tablettes, ordinateurs, TV, consoles\n🏠 Maison : meubles, électroménager, décoration\nEt plus : vélos, instruments, vêtements, bébé, animalerie, sport...",
+          "ar_answer": "AdFill يتعامل مع أكثر من 34 فئة على Avito:\n\n🚗 المركبات: السيارات والدراجات النارية والشاحنات والقطع\n🏠 العقارات: الشقق والمنازل والمحلات والمحلات التجارية والأراضي\n📱 الإلكترونيات: الهواتف الذكية والأجهزة اللوحية والحواسيب والتلفاز وأجهزة الألعاب\n🏠 المنزل: الأثاث والأجهزة الكهربائية والديكور\nوغيرها: الدراجات والآلات الموسيقية والملابس والأطفال والحيوانات الأليفة والرياضة..."
         },
         {
           "keywords": ["ville", "quartier", "localisation", "adresse", "location"],
-          "answer": "📍 AdFill remplit la ville automatiquement. Pour les appartements, il remplit aussi le quartier.\n\nVilles supportées : Casablanca, Rabat, Marrakech, Tanger, Fès, Agadir, Meknès, Oujda, Tétouan, Khouribga, Ain Sebaa, Mohammedia, Kenitra et toutes les villes marocaines."
+          "ar_keywords": ["مدينة", "حي", "موقع", "عنوان", "مكان"],
+          "answer": "📍 AdFill remplit la ville automatiquement. Pour les appartements, il remplit aussi le quartier.\n\nVilles supportées : Casablanca, Rabat, Marrakech, Tanger, Fès, Agadir, Meknès, Oujda, Tétouan, Khouribga, Ain Sebaa, Mohammedia, Kenitra et toutes les villes marocaines.",
+          "ar_answer": "📍 AdFill يملأ المدينة تلقائياً. للشقق، يملأ الحي أيضاً.\n\nالمدن المدعومة: الدار البيضاء والرباط ومراكش وطنجة وفاس وأكادير ومكناس ووجدة وتطوان وخريبكةعين السبع المحمدية والقنيطرة وجميع المدن المغربية."
         },
         {
           "keywords": ["photo", "image", "image de stock", "stock"],
-          "answer": "📸 AdFill télécharge les images depuis l'URL que vous spécifiez ou utilise des images de stock pour les catégories Basic et supérieur.\n\nPour utiliser vos propres photos, entrez les URLs dans le formulaire de création d'annonce."
+          "ar_keywords": ["صورة", "صور", "صورة مخزنة"],
+          "answer": "📸 AdFill télécharge les images depuis l'URL que vous spécifiez ou utilise des images de stock pour les catégories Basic et supérieur.\n\nPour utiliser vos propres photos, entrez les URLs dans le formulaire de création d'annonce.",
+          "ar_answer": "📸 AdFill يحمّل الصور من الرابط الذي تحدده أو يستخدم صوراً جاهزة لباقات Basic فما فوق.\n\nلاستخدام صورك الخاصة، أدخل الروابط في نموذج إنشاء الإعلان."
         },
         {
           "keywords": ["description", "titre", "contenu", "annonce", "rédiger", "réécrire", "rewrite"],
-          "answer": "📝 AdFill remplit le titre, la description et le prix de votre annonce. Vous pouvez aussi utiliser la <b>réécriture IA</b> (pack Business Pro) pour améliorer automatiquement vos descriptions."
+          "ar_keywords": ["وصف", "عنوان", "محتوى", "إعلان", "كتابة", "إعادة كتابة"],
+          "answer": "📝 AdFill remplit le titre, la description et le prix de votre annonce. Vous pouvez aussi utiliser la <b>réécriture IA</b> (pack Business Pro) pour améliorer automatiquement vos descriptions.",
+          "ar_answer": "📝 AdFill يملأ العنوان والوصف والسعر لإعلانك. يمكنك أيضاً استخدام <b>إعادة الكتابة بالذكاء الاصطناعي</b> (باقة Business Pro) لتحسين الأوصاف تلقائياً."
         },
         {
           "keywords": ["marque", "modèle", "vehicle", "voiture", "véhicule"],
-          "answer": "🚗 Pour les véhicules, AdFill remplit :\n• Marque (ex: Renault, Peugeot, BMW...)\n• Modèle (ex: Clio 4, 308, Série 3...)\n• Année, kilométrage, carburant, puissance\n\nLe champ « Marque » sur Avito est le sélecteur de modèle."
+          "ar_keywords": ["ماركة", "طراز", "سيارة", "مركبة"],
+          "answer": "🚗 Pour les véhicules, AdFill remplit :\n• Marque (ex: Renault, Peugeot, BMW...)\n• Modèle (ex: Clio 4, 308, Série 3...)\n• Année, kilométrage, carburant, puissance\n\nLe champ « Marque » sur Avito est le sélecteur de modèle.",
+          "ar_answer": "🚗 للمركبات، يملأ AdFill:\n• الماركة (مثلاً: رينو، بيجو، بي إم دبليو...)\n• الطراز (مثلاً: كليو 4، 308، سلسلة 3...)\n• السنة، المسافة المقطوعة، نوع الوقود، القوة\n\nحقل « الماركة » على Avito هو محدد الطراز."
         },
         {
           "keywords": ["smartphone", "téléphone", "mobile", "marque", "capacité"],
-          "answer": "📱 Pour les smartphones, AdFill remplit :\n• Marque (Apple, Samsung, Xiaomi...)\n• Capacité (64Go, 128Go, 256Go...)\n• État (Neuf, Comme neuf, Bon état...)"
+          "ar_keywords": ["هاتف ذكي", "هاتف", "موبايل", "سعة"],
+          "answer": "📱 Pour les smartphones, AdFill remplit :\n• Marque (Apple, Samsung, Xiaomi...)\n• Capacité (64Go, 128Go, 256Go...)\n• État (Neuf, Comme neuf, Bon état...)",
+          "ar_answer": "📱 للهواتف الذكية، يملأ AdFill:\n• الماركة (Apple، Samsung، Xiaomi...)\n• السعة (64GB، 128GB، 256GB...)\n• الحالة (جديد، كجديد، حالة جيدة...)"
         },
         {
           "keywords": ["appartement", "logement", "immobilier", "type", "surface"],
-          "answer": "🏠 Pour l'immobilier, AdFill remplit :\n• Type (Appartement, Villa, Studio...)\n• Surface, nombre de pièces/chambres\n• État, étage\n• Quartier (dialogue dédié)"
+          "ar_keywords": ["شقة", "سكن", "عقار", "نوع", "مساحة"],
+          "answer": "🏠 Pour l'immobilier, AdFill remplit :\n• Type (Appartement, Villa, Studio...)\n• Surface, nombre de pièces/chambres\n• État, étage\n• Quartier (dialogue dédié)",
+          "ar_answer": "🏠 للعقارات، يملأ AdFill:\n• النوع (شقة، فيلا، استوديو...)\n• المساحة، عدد الغرف/غرف النوم\n• الحالة، الطابق\n• الحي (نافذة مخصصة)"
         },
         {
           "keywords": ["delai", "humain", "détection", "ban", "bloquer"],
-          "answer": "🕐 AdFill ajoute des délais aléatoires entre chaque action pour imiter un comportement humain. Le remplissage prend 2-5 minutes par annonce. Cela réduit le risque de détection par Avito."
+          "ar_keywords": ["تأخير", "بشري", "كشف", "حظر", "iban"],
+          "answer": "🕐 AdFill ajoute des délais aléatoires entre chaque action pour imiter un comportement humain. Le remplissage prend 2-5 minutes par annonce. Cela réduit le risque de détection par Avito.",
+          "ar_answer": "🕐 AdFill يضيف تأخيرات عشوائية بين كل إجراء لمحاكاة السلوك البشري. تستغرق التعبئة 2-5 دقائق لكل إعلان. هذا يقلل خطر الكشف من طرف Avito."
         }
       ]
     },
     {
       "id": "mode_fonctionnement",
       "label": "⚙️ Mode de fonctionnement",
+      "ar_label": "⚙️ طريقة العمل",
       "keywords": ["comment", "étape", "processus", "pipeline", "file", "attente", "queue", "remplir", "lancer"],
       "questions": [
         {
           "keywords": ["comment créer", "créer annonce", "nouvelle annonce", "ajouter"],
-          "answer": "📝 <b>Créer une annonce :</b>\n1. Ouvrez AdFill\n2. Appuyez sur « + » (nouvelle annonce)\n3. Remplissez : catégorie, titre, description, photos, prix, caractéristiques\n4. Saisissez téléphone et nom du contact\n5. Appuyez sur « Enregistrer »\n6. Appuyez sur « Démarrer » pour publier sur Avito"
+          "ar_keywords": ["كيفاش تنشئ", "تنشئ إعلان", "إعلان جديد", "زيد"],
+          "answer": "📝 <b>Créer une annonce :</b>\n1. Ouvrez AdFill\n2. Appuyez sur « + » (nouvelle annonce)\n3. Remplissez : catégorie, titre, description, photos, prix, caractéristiques\n4. Saisissez téléphone et nom du contact\n5. Appuyez sur « Enregistrer »\n6. Appuyez sur « Démarrer » pour publier sur Avito",
+          "ar_answer": "📝 <b>إنشاء إعلان:</b>\n1. افتح AdFill\n2. اضغط « + » (إعلان جديد)\n3. املأ: الفئة والعنوان والوصف والصور والسعر والمواصفات\n4. أدخل رقم الهاتف واسم جهة الاتصال\n5. اضغط «حفظ»\n6. اضغط «بدء» للنشر على Avito"
         },
         {
           "keywords": ["file", "attente", "queue", "plusieurs", "multiples"],
-          "answer": "📋 AdFill gère une file d'attente : vous créez plusieurs annonces, puis AdFill les publie une par une avec des délais entre chaque. Réduisez la fenêtre pour laisser le remplissage continuer en arrière-plan."
+          "ar_keywords": ["قائمة انتظار", "عدة", "متعددة"],
+          "answer": "📋 AdFill gère une file d'attente : vous créez plusieurs annonces, puis AdFill les publie une par une avec des délais entre chaque. Réduisez la fenêtre pour laisser le remplissage continuer en arrière-plan.",
+          "ar_answer": "📋 AdFill يدير قائمة انتظار: تنشئ عدة إعلانات، ثم ينشرها AdFill واحدة تلو الأخرى مع تأخيرات بين كل إعلان. صغر النافذة لتمكين التعبئة في الخلفية."
         },
         {
           "keywords": ["test", "tester", "aperçu"],
-          "answer": "🔍 Le bouton « Test » permet de vérifier le remplissage d'une annonce sans la publier. Utile pour vérifier que tous les champs sont corrects avant de lancer."
+          "ar_keywords": ["اختبار", "جرّب", "معاينة"],
+          "answer": "🔍 Le bouton « Test » permet de vérifier le remplissage d'une annonce sans la publier. Utile pour vérifier que tous les champs sont corrects avant de lancer.",
+          "ar_answer": "🔍 زر «اختبار» للتحقق من تعبئة الإعلان بدون نشر. مفيد للتحقق من صحة جميع الحقول قبل البدء."
         },
         {
           "keywords": ["pause", "arrêter", "stop", "reprendre"],
-          "answer": "⏸️ Pour mettre en pause :\n• Fenêtre flottante (Android) : fermez la fenêtre\n• Windows : arrêtez le serveur\n\nVous pouvez relancer quand vous voulez. Les annonces terminées restent sauvegardées."
+          "ar_keywords": ["إيقاف", "وقف", "استئناف"],
+          "answer": "⏸️ Pour mettre en pause :\n• Fenêtre flottante (Android) : fermez la fenêtre\n• Windows : arrêtez le serveur\n\nVous pouvez relancer quand vous voulez. Les annonces terminées restent sauvegardées.",
+          "ar_answer": "⏸️ للإيقاف المؤقت:\n• النافذة العائمة (Android): أغلق النافذة\n• Windows: أوقف الخادم\n\nيمكنك إعادة التشغيل متى شئت. الإعلانات المكتملة تبقى محفوظة."
         }
       ]
     },
     {
       "id": "erreurs",
       "label": "❌ Erreurs & Dépannage",
+      "ar_label": "❌ الأخطاء وحل المشاكل",
       "keywords": ["erreur", "bug", "problème", "crash", "ne fonctionne pas", "plant", "bloqué", "plante"],
       "questions": [
         {
           "keywords": ["connexion", "internet", "réseau", "hors-ligne", "offline"],
-          "answer": "🌐 Vérifiez votre connexion internet. AdFill nécessite une connexion stable pour remplir les formulaires Avito.\n\nSi le problème persiste, redémarrez l'application."
+          "ar_keywords": ["اتصال", "إنترنت", "شبكة", "غير متصل"],
+          "answer": "🌐 Vérifiez votre connexion internet. AdFill nécessite une connexion stable pour remplir les formulaires Avito.\n\nSi le problème persiste, redémarrez l'application.",
+          "ar_answer": "🌐 تحقق من اتصالك بالإنترنت. AdFill يحتاج اتصالاً مستقراً لتعبئة نماذج Avito.\n\nإذا استمرت المشكلة، أعد تشغيل التطبيق."
         },
         {
           "keywords": ["captcha", "vérification", "anti-bot", "détection"],
-          "answer": "🛡️ Si Avito affiche un captcha ou une vérification :\n• AdFill attend et réessaie automatiquement\n• Résolvez le captcha manuellement si demandé\n• Si le problème persiste, attendez quelques minutes avant de relancer"
+          "ar_keywords": ["كابتشا", "تحقق", "مضاد للروبوت", "كشف"],
+          "answer": "🛡️ Si Avito affiche un captcha ou une vérification :\n• AdFill attend et réessaie automatiquement\n• Résolvez le captcha manuellement si demandé\n• Si le problème persiste, attendez quelques minutes avant de relancer",
+          "ar_answer": "🛡️ إذا ظهر كابتشا أو تحقق على Avito:\n• AdFill ينتظر ويحاول تلقائياً\n• حل الكابتشا يدوياً إذا طُلب\n• إذا استمرت المشكلة، انتظر بضع دقائق قبل إعادة التشغيل"
         },
         {
           "keywords": ["ne remplit", "pas rempli", "vide", "champ manquant", "oublié"],
-          "answer": "Si un champ n'est pas rempli :\n1. Vérifiez que la catégorie est correctement sélectionnée\n2. Certains champs dépendent de la catégorie (ex: marque pour véhicules)\n3. Utilisez le bouton « Test » pour identifier le problème\n4. Mettez à jour AdFill si disponible"
+          "ar_keywords": ["ما يملأش", "ما ملاتش", "خاوي", "حقل ناقص", "نسا"],
+          "answer": "Si un champ n'est pas rempli :\n1. Vérifiez que la catégorie est correctement sélectionnée\n2. Certains champs dépendent de la catégorie (ex: marque pour véhicules)\n3. Utilisez le bouton « Test » pour identifier le problème\n4. Mettez à jour AdFill si disponible",
+          "ar_answer": "إذا لم يُملأ حقل:\n1. تحقق من اختيار الفئة بشكل صحيح\n2. بعض الحقول تعتمد على الفئة (مثل الماركة للمركبات)\n3. استخدم زر «اختبار» لتحديد المشكلة\n4. حدّث AdFill إذا كان هناك تحديث"
         },
         {
           "keywords": ["ferme", "plante", "crash", "arrête", "erreur fatale"],
-          "answer": "🔧 Si AdFill se ferme :\n1. Redémarrez l'application\n2. Vérifiez qu'Android/Windows est à jour\n3. Si le problème persiste, désinstallez et réinstallez\n4. Contactez le support avec la description du problème"
+          "ar_keywords": ["يغلق", "يتوقف", "كراش", "خطأ فادح"],
+          "answer": "🔧 Si AdFill se ferme :\n1. Redémarrez l'application\n2. Vérifiez qu'Android/Windows est à jour\n3. Si le problème persiste, désinstallez et réinstallez\n4. Contactez le support avec la description du problème",
+          "ar_answer": "🔧 إذا أغلق AdFill:\n1. أعد تشغيل التطبيق\n2. تحقق من تحديث Android/Windows\n3. إذا استمرت المشكلة، احذف وأعد التثبيت\n4. تواصل مع الدعم مع وصف المشكلة"
         },
         {
           "keywords": ["android version", "compatibilité", "ancien", "vieil android"],
-          "answer": "📱 <b>Compatibilité :</b>\n• Android 9+ (SDK 28) requis\n• Windows 10/11 requis\n• Chrome doit être installé sur Windows"
+          "ar_keywords": ["إصدار اندرويد", "توافق", "قديم", "اندرويد قديم"],
+          "answer": "📱 <b>Compatibilité :</b>\n• Android 9+ (SDK 28) requis\n• Windows 10/11 requis\n• Chrome doit être installé sur Windows",
+          "ar_answer": "📱 <b>التوافق:</b>\n• Android 9+ (SDK 28) مطلوب\n• Windows 10/11 مطلوب\n• يجب تثبيت Chrome على Windows"
         },
         {
           "keywords": ["react", "input", "saisie", "clavier"],
-          "answer": "AdFill utilise un système avancé de simulation de saisie compatible React/Angular (valeurs natives + événements mousedown/mouseup/click). Si un champ ne réagit pas, c'est un bug connu à signaler."
+          "ar_keywords": [" react", "إدخال", "كتابة", "لوحة مفاتيح"],
+          "answer": "AdFill utilise un système avancé de simulation de saisie compatible React/Angular (valeurs natives + événements mousedown/mouseup/click). Si un champ ne réagit pas, c'est un bug connu à signaler.",
+          "ar_answer": "AdFill يستخدم نظاماً متقدماً لمحاكاة الإدخال متوافق مع React/Angular (قيم أصلية + أحداث mousedown/mouseup/click). إذا لم يستجب حقل، это خطأ معروف يجب الإبلاغ عنه."
         }
       ]
     },
     {
       "id": "support",
       "label": "🆘 Support",
+      "ar_label": "🆘 الدعم",
       "keywords": ["support", "aide", "contacter", "bug", "signaler", "feedback", "suggestion", "problème", "question"],
       "questions": [
         {
           "keywords": ["contacter", "support", "email", "téléphone", "whatsapp"],
-          "answer": "🆘 <b>Contacter le support :</b>\n\n📧 Email : adfillpro@gmail.com\n📱 Telegram : @AdFillProBot (ce bot)\n\nDécrivez votre problème avec :\n• Version d'AdFill (Android/Windows + version)\n• Description du problème\n• Capture d'écran si possible"
+          "ar_keywords": ["تواصل", "دعم", "إيميل", "هاتف", "واتساب"],
+          "answer": "🆘 <b>Contacter le support :</b>\n\n📧 Email : adfillpro@gmail.com\n📱 Telegram : @AdFillProBot (ce bot)\n\nDécrivez votre problème avec :\n• Version d'AdFill (Android/Windows + version)\n• Description du problème\n• Capture d'écran si possible",
+          "ar_answer": "🆘 <b>التواصل مع الدعم:</b>\n\n📧 الإيميل: adfillpro@gmail.com\n📱 Telegram: @AdFillProBot (هذا البوت)\n\nصف مشكلتك مع:\n• إصدار AdFill (Android/Windows + الإصدار)\n• وصف المشكلة\n• لقطة شاشة إن أمكن"
         },
         {
           "keywords": ["bug", "signaler", "feedback", "suggestion", "améliorer"],
-          "answer": "🐛 Merci pour votre retour ! Pour signaler un bug :\n1. Notez ce que vous faisiez au moment du problème\n2. Capturez l'écran si possible\n3. Envoyez-nous via ce bot ou par email\n\nVos retours nous aident à améliorer AdFill."
+          "ar_keywords": ["باغ", "إبلاغ", "ملاحظة", "اقتراح", "تحسين"],
+          "answer": "🐛 Merci pour votre retour ! Pour signaler un bug :\n1. Notez ce que vous faisiez au moment du problème\n2. Capturez l'écran si possible\n3. Envoyez-nous via ce bot ou par email\n\nVos retours nous aident à améliorer AdFill.",
+          "ar_answer": "🐛 شكراً لملاحظاتك! للإبلاغ عن خطأ:\n1. دوّن ما كنت تفعله عند حدوث المشكلة\n2. خذ لقطة شاشة إن أمكن\n3. أرسلها عبر هذا البوت أو بالإيميل\n\nملاحظاتك تساعدنا في تحسين AdFill."
         },
         {
           "keywords": ["merci", "super", "génial", "bravo", "cool"],
-          "answer": "🎉 Merci beaucoup ! Votre soutien nous motive. N'hésitez pas à nous laisser un avis ou à partager AdFill avec vos amis !"
+          "ar_keywords": ["شكراً", "ممتاز", "رائع", "برافو", "حلو"],
+          "answer": "🎉 Merci beaucoup ! Votre soutien nous motive. N'hésitez pas à nous laisser un avis ou à partager AdFill avec vos amis !",
+          "ar_answer": "🎉 شكراً جزيلاً! دعمك يحفزنا. لا تتردد في ترك تقييم أو مشاركة AdFill مع أصدقائك!"
         }
       ]
     }
