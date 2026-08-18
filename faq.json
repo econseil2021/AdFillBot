@@ -1,0 +1,193 @@
+{
+  "categories": [
+    {
+      "id": "general",
+      "label": "📋 Général",
+      "keywords": ["qu'est-ce", "c'est quoi", "adfill", "fonctionne", "sert à", "pourquoi", "quoi"],
+      "questions": [
+        {
+          "keywords": ["qu'est-ce", "c'est quoi", "adfill", "décrire", "présentation"],
+          "answer": "AdFill est un outil d'automatisation qui remplit vos annonces sur Avito.ma automatiquement. Il sélectionne la catégorie, remplit le titre, la description, le prix, la localisation, les photos et toutes les caractéristiques. Disponible sur Android et Windows."
+        },
+        {
+          "keywords": ["avito", "fonctionne avito", "compatible"],
+          "answer": "AdFill est spécialement conçu pour Avito.ma (site marocain). Il gère toutes les catégories : véhicules, immobilier, électronique, maison, etc."
+        },
+        {
+          "keywords": ["automatis", "remplit", "remplissage", "comment ça marche"],
+          "answer": "AdFill utilise un robot qui remplit les formulaires Avito à votre place. Vous créez l'annonce dans l'app avec titre, description, photos, prix et caractéristiques. Ensuite, AdFill ouvre Avito et remplit tout automatiquement. Il reste des délais humains pour éviter la détection."
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "label": "📱 Installation",
+      "keywords": ["installer", "installation", "télécharger", "download", "apk", "exe", "windows", "android"],
+      "questions": [
+        {
+          "keywords": ["android", "apk", "installer", "télécharger", "mobile"],
+          "answer": "📥 <b>Installation Android :</b>\n1. Téléchargez l'APK depuis le lien envoyé par le bot\n2. Ouvrez le fichier APK\n3. Autorisez l'installation d'applications inconnues si demandé\n4. Ouvrez AdFill et saisissez votre clé de licence\n\n⚠️ Android 9+ requis (SDK 28 minimum)."
+        },
+        {
+          "keywords": ["windows", "exe", "pc", "portable", "setup", "installer windows"],
+          "answer": "💻 <b>Installation Windows :</b>\n1. Téléchargez AdFill-1.9.3-portable.exe (aucune installation) ou AdFill-1.9.3-setup.exe (installation)\n2. Lancez le fichier\n3. Saisissez votre clé de licence\n\n⚠️ Windows 10/11 requis. Le mode portable ne nécessite aucune installation."
+        },
+        {
+          "keywords": ["android inconnu", "applications inconnues", "sécurité", "bloqué"],
+          "answer": "📱 <b>Autoriser l'installation :</b>\nAllez dans <b>Paramètres → Sécurité → Sources inconnues</b> et activez l'option. Sur Android 8+, cochez « Autoriser cette source ». Puis réinstallez l'APK."
+        },
+        {
+          "keywords": ["chrome", "navigateur", "puppeteer", "fichier requis"],
+          "answer": "AdFill utilise Chrome en arrière-plan (via Puppeteer). Un premier lancement peut prendre quelques secondes de plus pour télécharger Chrome si absent. Aucune intervention requise."
+        }
+      ]
+    },
+    {
+      "id": "licence",
+      "label": "🔑 Licence & Packs",
+      "keywords": ["licence", "clé", "activation", "pack", "essai", "gratuit", "tarif", "prix", "abonnement", "expiré", "invalide"],
+      "questions": [
+        {
+          "keywords": ["essai", "gratuit", "free", "tester", "sans payer", "démonstration"],
+          "answer": "🎁 <b>Essai gratuit 7 jours :</b>\nAu premier lancement, AdFill vous propose un essai gratuit de 7 jours (pack \"free\") avec 3 annonces. Pas besoin de clé — activez-le directement depuis l'application."
+        },
+        {
+          "keywords": ["tarif", "prix", "coût", "combien", "abonnement", "mensuel"],
+          "answer": "💰 <b>Packs disponibles :</b>\n\n• <b>Free</b> — 3 produits, 1 machine, 0 DH\n• <b>Basic</b> — 10 produits, 1 machine, 299 DH/mois\n• <b>Business</b> — 100 produits, 3 machines, 599 DH/mois\n• <b>Business Pro</b> — 200 produits, 5 machines, IA + images, 1199 DH/mois"
+        },
+        {
+          "keywords": ["pack", "basic", "business", "pro", "choisir pack", "passer pack"],
+          "answer": "Pour changer de pack :\n1. Ouvrez AdFill\n2. Allez dans le menu « Packs » (Android) ou « Choisir un pack » (Windows)\n3. Sélectionnez votre pack\n4. Saisissez la clé de licence correspondante\n\nLes packs Basic et Business Pro incluent les images. Business Pro inclut aussi la réécriture IA des descriptions."
+        },
+        {
+          "keywords": ["clé", "licence", "activation", "valider", "ma clé"],
+          "answer": "🔑 <b>Activer une licence :</b>\n1. Ouvrez AdFill\n2. Sur l'écran de bienvenue, saisissez votre clé de licence\n3. Appuyez sur « Valider »\n4. L'application vérifie et active votre pack\n\nSi vous avez un essai gratuit actif, la clé le remplace."
+        },
+        {
+          "keywords": ["expiré", "expiration", "fini", "terminé", "plus de jours"],
+          "answer": "⏰ Si votre licence est expirée :\n• L'application affiche « Licence expirée »\n• Renouvelez votre abonnement ou saisissez une nouvelle clé\n• Vérifiez la date d'expiration dans l'écran « Client » d'AdFill\n\nUn essai gratuit dure 7 jours. Les packs payants sont mensuels."
+        },
+        {
+          "keywords": ["invalide", "errone", "marche pas", "rejeté", "refusé"],
+          "answer": "❌ Si votre clé est rejetée :\n1. Vérifiez l'orthographe (pas d'espace en trop)\n2. Vérifiez que la clé correspond au bon pack\n3. Vérifiez que la clé n'est pas déjà utilisée sur un autre appareil\n4. Contactez le support si le problème persiste"
+        },
+        {
+          "keywords": ["machine", "appareil", "téléphone", "changer", "désactiver"],
+          "answer": "Un pack Basic permet 1 machine. Business permet 3 machines. Business Pro permet 5 machines.\n\nSi vous changez de téléphone/PC, la clé se désactive automatiquement de l'ancien appareil après quelques heures d'inactivité."
+        }
+      ]
+    },
+    {
+      "id": "fonctionnalites",
+      "label": "⚡ Fonctionnalités",
+      "keywords": ["fonctionnalité", "fait quoi", "possibilité", "catégorie", "annonce", "ville", "quartier", "marque", "modèle", "photo", "description", "prix", "ia", "intelligence"],
+      "questions": [
+        {
+          "keywords": ["catégorie", "catégories", "type annonce"],
+          "answer": "AdFill gère 34+ catégories Avito :\n\n🚗 Véhicules : voitures, motos, camions, pièces\n🏠 Immobilier : appartements, maisons, bureaux, magasins, terrains\n📱 Électronique : smartphones, tablettes, ordinateurs, TV, consoles\n🏠 Maison : meubles, électroménager, décoration\nEt plus : vélos, instruments, vêtements, bébé, animalerie, sport..."
+        },
+        {
+          "keywords": ["ville", "quartier", "localisation", "adresse", "location"],
+          "answer": "📍 AdFill remplit la ville automatiquement. Pour les appartements, il remplit aussi le quartier.\n\nVilles supportées : Casablanca, Rabat, Marrakech, Tanger, Fès, Agadir, Meknès, Oujda, Tétouan, Khouribga, Ain Sebaa, Mohammedia, Kenitra et toutes les villes marocaines."
+        },
+        {
+          "keywords": ["photo", "image", "image de stock", "stock"],
+          "answer": "📸 AdFill télécharge les images depuis l'URL que vous spécifiez ou utilise des images de stock pour les catégories Basic et supérieur.\n\nPour utiliser vos propres photos, entrez les URLs dans le formulaire de création d'annonce."
+        },
+        {
+          "keywords": ["description", "titre", "contenu", "annonce", "rédiger", "réécrire", "rewrite"],
+          "answer": "📝 AdFill remplit le titre, la description et le prix de votre annonce. Vous pouvez aussi utiliser la <b>réécriture IA</b> (pack Business Pro) pour améliorer automatiquement vos descriptions."
+        },
+        {
+          "keywords": ["marque", "modèle", "vehicle", "voiture", "véhicule"],
+          "answer": "🚗 Pour les véhicules, AdFill remplit :\n• Marque (ex: Renault, Peugeot, BMW...)\n• Modèle (ex: Clio 4, 308, Série 3...)\n• Année, kilométrage, carburant, puissance\n\nLe champ « Marque » sur Avito est le sélecteur de modèle."
+        },
+        {
+          "keywords": ["smartphone", "téléphone", "mobile", "marque", "capacité"],
+          "answer": "📱 Pour les smartphones, AdFill remplit :\n• Marque (Apple, Samsung, Xiaomi...)\n• Capacité (64Go, 128Go, 256Go...)\n• État (Neuf, Comme neuf, Bon état...)"
+        },
+        {
+          "keywords": ["appartement", "logement", "immobilier", "type", "surface"],
+          "answer": "🏠 Pour l'immobilier, AdFill remplit :\n• Type (Appartement, Villa, Studio...)\n• Surface, nombre de pièces/chambres\n• État, étage\n• Quartier (dialogue dédié)"
+        },
+        {
+          "keywords": ["delai", "humain", "détection", "ban", "bloquer"],
+          "answer": "🕐 AdFill ajoute des délais aléatoires entre chaque action pour imiter un comportement humain. Le remplissage prend 2-5 minutes par annonce. Cela réduit le risque de détection par Avito."
+        }
+      ]
+    },
+    {
+      "id": "mode_fonctionnement",
+      "label": "⚙️ Mode de fonctionnement",
+      "keywords": ["comment", "étape", "processus", "pipeline", "file", "attente", "queue", "remplir", "lancer"],
+      "questions": [
+        {
+          "keywords": ["comment créer", "créer annonce", "nouvelle annonce", "ajouter"],
+          "answer": "📝 <b>Créer une annonce :</b>\n1. Ouvrez AdFill\n2. Appuyez sur « + » (nouvelle annonce)\n3. Remplissez : catégorie, titre, description, photos, prix, caractéristiques\n4. Saisissez téléphone et nom du contact\n5. Appuyez sur « Enregistrer »\n6. Appuyez sur « Démarrer » pour publier sur Avito"
+        },
+        {
+          "keywords": ["file", "attente", "queue", "plusieurs", "multiples"],
+          "answer": "📋 AdFill gère une file d'attente : vous créez plusieurs annonces, puis AdFill les publie une par une avec des délais entre chaque. Réduisez la fenêtre pour laisser le remplissage continuer en arrière-plan."
+        },
+        {
+          "keywords": ["test", "tester", "aperçu"],
+          "answer": "🔍 Le bouton « Test » permet de vérifier le remplissage d'une annonce sans la publier. Utile pour vérifier que tous les champs sont corrects avant de lancer."
+        },
+        {
+          "keywords": ["pause", "arrêter", "stop", "reprendre"],
+          "answer": "⏸️ Pour mettre en pause :\n• Fenêtre flottante (Android) : fermez la fenêtre\n• Windows : arrêtez le serveur\n\nVous pouvez relancer quand vous voulez. Les annonces terminées restent sauvegardées."
+        }
+      ]
+    },
+    {
+      "id": "erreurs",
+      "label": "❌ Erreurs & Dépannage",
+      "keywords": ["erreur", "bug", "problème", "crash", "ne fonctionne pas", "plant", "bloqué", "plante"],
+      "questions": [
+        {
+          "keywords": ["connexion", "internet", "réseau", "hors-ligne", "offline"],
+          "answer": "🌐 Vérifiez votre connexion internet. AdFill nécessite une connexion stable pour remplir les formulaires Avito.\n\nSi le problème persiste, redémarrez l'application."
+        },
+        {
+          "keywords": ["captcha", "vérification", "anti-bot", "détection"],
+          "answer": "🛡️ Si Avito affiche un captcha ou une vérification :\n• AdFill attend et réessaie automatiquement\n• Résolvez le captcha manuellement si demandé\n• Si le problème persiste, attendez quelques minutes avant de relancer"
+        },
+        {
+          "keywords": ["ne remplit", "pas rempli", "vide", "champ manquant", "oublié"],
+          "answer": "Si un champ n'est pas rempli :\n1. Vérifiez que la catégorie est correctement sélectionnée\n2. Certains champs dépendent de la catégorie (ex: marque pour véhicules)\n3. Utilisez le bouton « Test » pour identifier le problème\n4. Mettez à jour AdFill si disponible"
+        },
+        {
+          "keywords": ["ferme", "plante", "crash", "arrête", "erreur fatale"],
+          "answer": "🔧 Si AdFill se ferme :\n1. Redémarrez l'application\n2. Vérifiez qu'Android/Windows est à jour\n3. Si le problème persiste, désinstallez et réinstallez\n4. Contactez le support avec la description du problème"
+        },
+        {
+          "keywords": ["android version", "compatibilité", "ancien", "vieil android"],
+          "answer": "📱 <b>Compatibilité :</b>\n• Android 9+ (SDK 28) requis\n• Windows 10/11 requis\n• Chrome doit être installé sur Windows"
+        },
+        {
+          "keywords": ["react", "input", "saisie", "clavier"],
+          "answer": "AdFill utilise un système avancé de simulation de saisie compatible React/Angular (valeurs natives + événements mousedown/mouseup/click). Si un champ ne réagit pas, c'est un bug connu à signaler."
+        }
+      ]
+    },
+    {
+      "id": "support",
+      "label": "🆘 Support",
+      "keywords": ["support", "aide", "contacter", "bug", "signaler", "feedback", "suggestion", "problème", "question"],
+      "questions": [
+        {
+          "keywords": ["contacter", "support", "email", "téléphone", "whatsapp"],
+          "answer": "🆘 <b>Contacter le support :</b>\n\n📧 Email : adfillpro@gmail.com\n📱 Telegram : @AdFillProBot (ce bot)\n\nDécrivez votre problème avec :\n• Version d'AdFill (Android/Windows + version)\n• Description du problème\n• Capture d'écran si possible"
+        },
+        {
+          "keywords": ["bug", "signaler", "feedback", "suggestion", "améliorer"],
+          "answer": "🐛 Merci pour votre retour ! Pour signaler un bug :\n1. Notez ce que vous faisiez au moment du problème\n2. Capturez l'écran si possible\n3. Envoyez-nous via ce bot ou par email\n\nVos retours nous aident à améliorer AdFill."
+        },
+        {
+          "keywords": ["merci", "super", "génial", "bravo", "cool"],
+          "answer": "🎉 Merci beaucoup ! Votre soutien nous motive. N'hésitez pas à nous laisser un avis ou à partager AdFill avec vos amis !"
+        }
+      ]
+    }
+  ]
+}

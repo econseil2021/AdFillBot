@@ -1,0 +1,13 @@
+{
+  "apkPath": "C:\\Dev\\adfillV1.9\\dist\\AdFill-v1.9.13.apk",
+  "apkVersion": "1.9.13",
+  "channelLink": "",
+  "channelName": "AdFill Bêta",
+  "androidLink": "",
+  "windowsLinks": [
+    "https://drive.google.com/file/d/1OWr51azo7pEXYaDpFaW0SAURzBwxzvOo/view?usp=drive_link",
+    "https://drive.google.com/file/d/1MPAynAsJqOHhKN4VZAzoSXhlr0l7U7SC/view?usp=drive_link"
+  ],
+  "welcomeText": "Bienvenue dans la bêta AdFill 🚀\n\nAdFill automatise le remplissage de vos annonces sur Avito.ma.\n\nTestez l'application et donnez-nous votre avis !",
+  "instructionsText": "📦 {apkVersion} — Instructions d'installation\n\n📱 Android :\n- Autoriser l'installation d'applications inconnues (Paramètres → Sécurité)\n- Ouvrir le fichier APK téléchargé\n- Saisir votre clé de licence ou démarrer l'essai gratuit\n\n💻 Windows :\n- Télécharger l'EXE depuis les liens envoyés\n- Lancer AdFill\n- Saisir votre clé de licence ou démarrer l'essai gratuit"
+}

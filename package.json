@@ -1,0 +1,14 @@
+{
+  "name": "adfill-telegram-bot",
+  "version": "1.0.0",
+  "description": "AdFill Telegram Bot for distribution",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["telegram", "bot", "adfill"],
+  "license": "MIT"
+}
