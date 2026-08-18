@@ -254,7 +254,9 @@ function buildUserContext(tgId) {
 async function askAI(userMessage, tgId) {
   if (!GROQ_KEY) return null;
   try {
+    // Indicateur "en train d'écrire..."
     const userCtx = buildUserContext(tgId);
+    await callApi('sendChatAction', { chat_id: tgId, action: 'typing' }).catch(() => {});
     const res = await fetch(GROQ_URL, {
       method: 'POST',
       headers: {
@@ -262,12 +264,12 @@ async function askAI(userMessage, tgId) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'qwen/qwen3.6-27b',
+        model: 'openai/gpt-oss-20b',
         messages: [
           { role: 'system', content: SYSTEM_PROMPT + '\n\n' + userCtx },
           { role: 'user', content: userMessage },
         ],
-        max_tokens: 2000,
+        max_tokens: 500,
         temperature: 0.3,
       }),
       signal: AbortSignal.timeout(20000),
