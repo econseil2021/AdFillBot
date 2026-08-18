@@ -101,13 +101,14 @@ function keyKeyboard() {
 async function sendAndroidLink(chatId, tester) {
   const link = CONFIG.androidLink;
   if (!link) {
-    await sendMessage(chatId, '⚠️ Le lien Android n\u2019est pas encore configuré. Contacte le support.');
+    await sendMessage(chatId, '⚠️ Le lien Android n\'est pas encore configuré. Contacte le support.');
     return false;
   }
   const text =
     '📱 <b>AdFill v' + CONFIG.apkVersion + ' — Android</b>\n\n' +
-    'Téléchargez l\u2019application :\n' +
-    '👉 ' + link;
+    '⬇️ Télécharge et installe l\'application :\n' +
+    '👉 ' + link + '\n\n' +
+    '💡 <i>Astuce : active l\'installation depuis sources inconnues dans les paramètres de ton téléphone.</i>';
   await sendMessage(chatId, text);
   return true;
 }
@@ -121,10 +122,10 @@ async function sendWindowsLink(chatId, tester) {
   }
   const text =
     '💻 <b>AdFill v' + CONFIG.apkVersion + ' — Windows</b>\n\n' +
-    'Téléchargez l\u2019EXE Windows :\n' +
+    '⬇️ Télécharge l\'EXE Windows :\n' +
     (links.length ? links.map((l) => '👉 ' + l).join('\n') : '👉 ' + link) + '\n\n' +
-    'Choisissez <b>AdFill-' + CONFIG.apkVersion + '-portable.exe</b> (aucune installation) ou ' +
-    '<b>AdFill-' + CONFIG.apkVersion + '-setup.exe</b> (installation).';
+    '💡 <i>Choisis <b>AdFill-' + CONFIG.apkVersion + '-portable.exe</b> (zéro installation) ou ' +
+    '<b>AdFill-' + CONFIG.apkVersion + '-setup.exe</b> (installation classique).</i>';
   await sendMessage(chatId, text);
   return true;
 }
@@ -139,8 +140,8 @@ async function unlock(chatId, tester) {
     await sendWindowsLink(chatId, tester);
   }
   const msg = lang === 'ar'
-    ? '✅ الروابط تم إرسالهم. واخا للاختبار ! إلا واجهتي مشكلة، تواصل معنا : adfillpro@gmail.com'
-    : '✅ Liens envoyés. Bon test ! En cas de problème, contacte le support : adfillpro@gmail.com';
+    ? '🚀 <b>هاك الروابط — جرب دابا!</b>\n\nواش عندك مشكلة ؟ تواصل معنا :\n📧 adfillpro@gmail.com\n\nبالتوفيق! 🎯'
+    : '🚀 <b>Voilà — bon test !</b>\n\nDes questions ? Contacte-nous :\n📧 adfillpro@gmail.com\n\nBonne utilisation ! 🎯';
   await sendMessage(chatId, msg);
 }
 
@@ -192,6 +193,7 @@ PERSONNALITÉ :
 - Tu es un vendeur compétent et un assistant technique. Tu guides le client du début à la fin.
 - Tu es chaleureux, patient, et tu parles comme un ami expert.
 - Tu détectes le besoin du client et tu lui donnes la bonne réponse immédiatement.
+- Tu PROMOUS activement l'essai gratuit de 7 jours — c'est ton argument de vente principal.
 
 LANGUE :
 - Détecte la langue et réponds dans la MÊME langue.
@@ -202,18 +204,19 @@ LANGUE :
 RÈGLES ABSOLUES :
 1. SI le client demande de télécharger / lien / apk / exe / application → DIS-lui de taper /start pour recevoir le lien directement. NE dis JAMAIS "va au menu" ou "utilise les boutons". Donne la marche à suivre claire.
 2. SI le client est déjà inscrit (a déjà donné son numéro) → propose directement les liens de téléchargement.
-3. SI c'est un nouveau client → pose 2-3 questions pour comprendre son besoin (quel téléphone/PC, qu'est-ce qu'il veut faire) puis guide-le vers /start.
+3. SI c'est un nouveau client → souligne l'essai gratuit 7 jours, puis guide-le vers /start pour s'inscrire.
 4. Si le client semble confus ou perdu → résume en 3 étapes simples : "1. Tape /start 2. Choisis Android ou Windows 3. Enregistre-toi et tu reçois le lien".
 5. Si le client pose des questions hors-sujet ou semble abuser du bot → sois poli mais redirige vers le support.
 
 STYLE DE RÉPONSE :
-- Utilise des emojis pour rendre les réponses vivantes.
-- Sois bref (3-5 lignes) sauf si le client demande des détails.
+- Sois enthousiaste mais professionnel — montre la valeur d'AdFill.
+- Utilise 1-2 emojis par message max.
+- Sois bref et percutant (2-4 lignes sauf détails demandés).
 - Termine toujours par un appel à l'action clair.
 - N'invente JAMAIS de fonctionnalités, prix ou dates.
 
 TARIFS :
-- Free : 3 produits, 1 machine, gratuit (essai 7 jours)
+- 🎁 Free : 3 produits, 1 machine, GRATUIT (essai 7 jours) —(argument principal!)
 - Basic : 10 produits, 1 machine, 299 DH/mois
 - Business : 100 produits, 3 machines, 599 DH/mois
 - Business Pro : 200 produits, 5 machines, IA + images, 1199 DH/mois
@@ -314,23 +317,61 @@ function isArabic(text) {
 }
 
 const MSG = {
-  welcome: (lang) => lang === 'ar' ? 'مرحبا بيك فـ AdFill ! 🚀\n\nAdFill كيملأ إعلاناتك بشكل تلقائي على Avito.ma.\n\nجرب التطبيق وقولنا رأيك !' : CONFIG.welcomeText,
-  platformChoice: (lang, p) => lang === 'ar' ? '📱 واخا اختاريتي : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nباش تحصل على الروابط، سجّل راسك :\n📞 أرسل <b>رقم التيليفون ديالك</b> (مع الكود الدولي) :' : '📱 Merci pour votre choix : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nPour débloquer les fichiers, enregistrez-vous :\n📞 Envoyez votre <b>numéro de téléphone</b> (avec indicatif) :',
-  invalidPhone: (lang) => lang === 'ar' ? '⚠️ هاد ماشي رقم صحيح. أرسل رقم مع الكود، مثال : +212 6 12 34 56 78' : '⚠️ Ce numéro ne semble pas valide. Envoyez un numéro avec indicatif, ex : +212 6 12 34 56 78',
-  phoneUsed: (lang) => lang === 'ar' ? '⚠️ هاد الرقم مسجل عند حساب خر. استعمل رقم خر أو تواصل مع الدعم.' : '⚠️ Ce numéro est déjà enregistré pour un autre compte. Utilisez un autre numéro ou contactez le support.',
-  otpSent: (lang, code) => lang === 'ar' ? '📱 <b>تأكيد الرقم</b>\n\nصيفطنا لك كود التأكيد على التيليفون ديالك عبر Telegram.\n\n🔑 الكود ديالك : <b>' + code + '</b>\n\nأرسل هاد الكود باش تأكد رقمك :' : '📱 <b>Vérification du numéro</b>\n\nUn code de vérification a été envoyé sur votre téléphone via Telegram.\n\n🔑 Votre code : <b>' + code + '</b>\n\nEnvoyez ce code pour valider votre numéro :',
-  otpWrong: (lang) => lang === 'ar' ? '❌ الكود ماشي صحيح. عاوتاني أو أرسل /annuler باش تبدا من اللول.' : '❌ Code incorrect. Réessayez ou envoyez /annuler pour recommencer.',
-  otpOk: (lang) => lang === 'ar' ? '✅ تم التأكد من الرقم ! دابا، <b>الاسم الكامل ديالك</b> :' : '✅ Numéro vérifié ! Maintenant, votre <b>nom et prénom</b> :',
-  invalidName: (lang) => lang === 'ar' ? '⚠️ الاسم قصير بزاف. أرسل الاسم الكامل ديالك، مثال : أحمد بنعلي' : '⚠️ Votre nom est un peu court. Envoyez votre nom et prénom, ex : Ahmed Benali',
-  askKey: (lang) => lang === 'ar' ? '🔑 واش عندك <b>مفتاح الترخيص</b> ؟ (اختياري للتجربة)' : '🔑 Avez-vous une <b>clé de licence</b> ? (facultatif pour le test bêta)',
-  keyVerifying: (lang) => lang === 'ar' ? '⏳ كن verificaو المفتاح ديالك…' : '⏳ Vérification de votre clé…',
-  keyValid: (lang, pack) => lang === 'ar' ? '✅ <b>مفتاح صحيح !</b>\nالباقة : ' + (pack || 'inconnue') + '\n\n🔑 الكود ديالك معتمد — تقدر تستعمل التطبيق بلا ماش.' : '✅ <b>Clé valide !</b>\nPack : ' + (pack || 'inconnu') + '\n\n🔑 Ta clé est approuvée — tu peux utiliser l\'application.',
-  keyInvalid: (lang, err) => lang === 'ar' ? '❌ <b>المفتاح ماشي صحيح.</b>\nالخطأ : ' + (err || 'غير معروف') + '\n\n🔑 عاوتاني أو جرب مع مفتاح خر.' : '❌ <b>Clé invalide.</b>\nErreur : ' + (err || 'inconnue') + '\n\n🔑 Réessaye ou essaie une autre clé.',
-  noKey: (lang) => lang === 'ar' ? '⏭️ واخا ! حسابك مسجل. المفتاح اختياري — تقدر تجرب التطبيق بلا ماش.' : '⏭️ Pas de problème ! Ton compte est enregistré. La clé est optionnelle.',
-  cancel: (lang) => lang === 'ar' ? '🛑 تم الإلغاء. أرسل /start باش تبدا من جديد.' : '🛑 Annulé. Tape /start pour recommencer.',
-  help: (lang) => lang === 'ar' ? '❓ <b>الأسئلة الشائعة</b>\n\nاختار الفئة ديال السؤال :' : '❓ <b>Questions fréquentes</b>\n\nChoisissez une catégorie :',
-  fallback: (lang) => lang === 'ar' ? '🤔 ما فهمتش. أرسل /start باش تبدا أو /aide للمساعدة.' : '🤔 Je ne suis pas sûr de comprendre. Tape /start pour commencer ou /aide pour de l\'aide.',
-  unknownCmd: (lang) => lang === 'ar' ? '⚠️ أمر ما معروفش. جرب /start أو /aide.' : '⚠️ Commande inconnue. Essaie /start ou /aide.',
+  welcome: (lang) => lang === 'ar'
+    ? '🚀 <b>AdFill — الإعلانات ديالك على Avito بشكل تلقائي</b>\n\n' +
+      '📌 كيملأ إعلاناتك بلا ما تقضي وقت\n' +
+      '📌 ي深交ح الصور والوصف والثمن بشكل ذكي\n' +
+      '📌 كيشتغل على Android و Windows\n\n' +
+      '🎁 جرب <b>مجانا 7 أيام</b> — بلا ما needing بطاقة بنكية\n\n' +
+      '⬇️ اختار اللغة ديالك باش نكملو :'
+    : '🚀 <b>AdFill — Tes annonces Avito remplies automatiquement</b>\n\n' +
+      '📌 Remplis tes annonces sans perdre de temps\n' +
+      '📌 Images, descriptions et prix gérés intelligemment\n' +
+      '📌 Disponible sur Android et Windows\n\n' +
+      '🎁 Essai gratuit <b>7 jours</b> — sans carte bancaire\n\n' +
+      '⬇️ Choisis ta langue pour continuer :',
+  invalidPhone: (lang) => lang === 'ar'
+    ? '⚠️ <b>رقم غير صالح</b>\n\nأرسل رقمك مع الكود الدولي، مثال :\n📞 +212 6XX XX XX XX'
+    : '⚠️ <b>Numéro invalide</b>\n\nEnvoie ton numéro avec l\'indicatif pays :\n📞 +212 6XX XX XX XX',
+  phoneUsed: (lang) => lang === 'ar'
+    ? '⚠️ <b>هاد الرقم مسجل فـ حساب خر</b>\n\nاستعمل رقم خر أو تواصل معنا :\n📧 adfillpro@gmail.com'
+    : '⚠️ <b>Ce numéro est déjà associé à un compte</b>\n\nUtilise un autre numéro ou contacte le support :\n📧 adfillpro@gmail.com',
+  otpSent: (lang, code) => lang === 'ar'
+    ? '🔐 <b>تثبيت حسابك</b>\n\nصيفطنا لك كود التأكيد باش نعرفو راك صاحب الرقم.\n\n🔑 <b>Kod dyalk : ' + code + '</b>\n\n📋 Sir nsot ha lcode f had lchat :'
+    : '🔐 <b>Vérification rapide</b>\n\nOn t\'a envoyé un code de confirmation.\n\n🔑 <b>Ton code : ' + code + '</b>\n\n📋 Copie-colle ce code ici pour confirmer :',
+  otpWrong: (lang) => lang === 'ar'
+    ? '❌ <b>الكود ماشي صحيح</b>\n\nعاوتاني — كود جديد وصافي :\n\nأو أرسل /annuler باش تبدا من جديد.'
+    : '❌ <b>Code incorrect</b>\n\nRéessaie avec le bon code :\n\nOu tape /annuler pour recommencer.',
+  otpOk: (lang) => lang === 'ar'
+    ? '✅ <b>تم التأكد — واخا!</b>\n\nدابا أعرفناك. شنو <b>سميك الكامل</b> ؟\n\n(مثلاً : أحمد بنعلي)'
+    : '✅ <b>Numéro confirmé !</b>\n\nMaintenant, dis-nous ton <b>nom complet</b> :\n\n(Ex : Ahmed Benali)',
+  invalidName: (lang) => lang === 'ar'
+    ? '⚠️ <b>الاسم قصير بزاف</b>\n\nأرسل الاسم الكامل ديالك :\n👤 مثال : أحمد بنعلي'
+    : '⚠️ <b>Le nom est trop court</b>\n\nEnvoie ton nom et prénom :\n👤 Ex : Ahmed Benali',
+  keyVerifying: (lang) => lang === 'ar'
+    ? '⏳ <b>كنverificaو المفتاح ديالك...</b>\n\nثواني فقط ⏳'
+    : '⏳ <b>Vérification de ta clé en cours...</b>\n\nQuelques secondes ⏳',
+  keyValid: (lang, pack) => lang === 'ar'
+    ? '🎉 <b>مفتاح صحيح — مرحبا بيك!</b>\n\n📦 الباقة : <b>' + (pack || 'free') + '</b>\n\n🔑 حسابك معتمد — تقدر تستعمل التطبيق بلا ماش.\n\n⬇️ اختار نظامك باش تحصل على الروابط :'
+    : '🎉 <b>Clé valide — bienvenue !</b>\n\n📦 Pack : <b>' + (pack || 'free') + '</b>\n\n🔑 Ton compte est actif — utilise l\'application.\n\n⬇️ Choisis ton système pour recevoir les liens :',
+  keyInvalid: (lang, err) => lang === 'ar'
+    ? '❌ <b>المفتاح ماشي صحيح</b>\n\nالخطأ : ' + (err || 'غير معروف') + '\n\n🔑 تأكد من المفتاح أو جرب مفتاح خر.\n\nأو تقدر كمل بلا ماش — المفتاح اختياري.'
+    : '❌ <b>Clé invalide</b>\n\nErreur : ' + (err || 'inconnue') + '\n\n🔑 Vérifie ta clé ou essaie une autre.\n\nTu peux aussi continuer sans clé — elle est optionnelle.',
+  noKey: (lang) => lang === 'ar'
+    ? '⏭️ <b>واخا — كمل بلا ماش!</b>\n\nالمفتاح اختياري. تقدر تجرب التطبيق مع الباقة المجانية.\n\n⬇️ اختار نظامك :'
+    : '⏭️ <b>Pas de problème — continue sans clé !</b>\n\nLa clé est optionnelle. Tu peux tester avec le pack gratuit.\n\n⬇️ Choisis ton système :',
+  cancel: (lang) => lang === 'ar'
+    ? '🛑 <b>تم الإلغاء.</b>\n\nعندك أي سؤال ؟ أرسل /start باش تبدا من جديد.'
+    : '🛑 <b>Annulé.</b>\n\nUne question ? Tape /start pour recommencer.',
+  help: (lang) => lang === 'ar'
+    ? '📚 <b>مركز المساعدة</b>\n\nاختار الفئة ديال السؤال ديالك :\n\n💬 ما لقيتيش السؤال ديالك؟ كتبو مباشرة وغادي نجاوبك!'
+    : '📚 <b>Centre d\'aide</b>\n\nChoisis une catégorie :\n\n💬 Tu ne trouves pas ta question ? Écris-la directement et on te répond !',
+  fallback: (lang) => lang === 'ar'
+    ? '💬 <b>ممكن نعاونك ؟</b>\n\nأرسل سؤالك مباشرة — أو :\n/start باش تبدا\n/aide للأسئلة الشائعة'
+    : '💬 <b>Comment puis-je t\'aider ?</b>\n\nPose ta question directement — ou :\n/start pour commencer\n/aide pour la FAQ',
+  unknownCmd: (lang) => lang === 'ar'
+    ? '🤔 <b>أمر غير معروف</b>\n\nجرب /start أو /aide — أو كتب سؤالك مباشرة!'
+    : '🤔 <b>Commande inconnue</b>\n\nEssaie /start ou /aide — ou écris ta question directement !',
 };
 
 // ---------------- Boutons ----------------
@@ -341,8 +382,8 @@ function langKeyboard() {
 }
 
 function clientTypeKeyboard(lang) {
-  const isNew = lang === 'ar' ? '🆕 عميل جديد' : '🆕 Nouveau client';
-  const isOld = lang === 'ar' ? '🔄 أنا عميل' : '🔄 Déjà inscrit';
+  const isNew = lang === 'ar' ? '🆕 نبدا من جديد' : '🆕 Je commence';
+  const isOld = lang === 'ar' ? '🔄 عندي حساب' : '🔄 J\'ai déjà un compte';
   return inlineKeyboard([
     [{ text: isNew, callback_data: 'client:new' }],
     [{ text: isOld, callback_data: 'client:old' }],
@@ -370,11 +411,22 @@ async function handleMessage(msg) {
 
   // /start — Reset total
   if (text === '/start') {
+    if (existing && existing.platform) {
+      // Déjà inscrit — retour direct
+      states.set(tgId, { step: 'done', platform: existing.platform, lang: existing.lang || 'fr' });
+      const lang = existing.lang || 'fr';
+      const msg = lang === 'ar'
+        ? '👋 <b>مرحبا بيك من جديد!</b>\n\nواش بغيتي تحمل التطبيق ولا عندك سؤال ؟'
+        : '👋 <b>Bon retour !</b>\n\nTu veux télécharger l\'app ou tu as une question ?';
+      await sendMessage(chatId, msg, inlineKeyboard([
+        [{ text: lang === 'ar' ? '📱 تحميل Android' : '📱 Télécharger Android', callback_data: 'pick:android' }],
+        [{ text: lang === 'ar' ? '💻 تحميل Windows' : '💻 Télécharger Windows', callback_data: 'pick:windows' }],
+        [{ text: '❓ ' + (lang === 'ar' ? 'المساعدة' : 'Aide & Questions'), callback_data: 'faq:back' }],
+      ]));
+      return;
+    }
     states.set(tgId, { step: 'lang' });
-    await sendMessage(chatId,
-      '👋 Bienvenue sur AdFill !\n\n choisissez votre langue :\n\n👋 مرحبا بيك فـ AdFill !\nاختار اللغة ديالك :',
-      langKeyboard()
-    );
+    await sendMessage(chatId, MSG.welcome('fr'), langKeyboard());
     return;
   }
 
@@ -395,15 +447,16 @@ async function handleMessage(msg) {
     // Si tape directement au lieu de cliquer le bouton
     st.lang = isArabic(text) ? 'ar' : 'fr';
     states.set(tgId, st);
-    await sendMessage(chatId,
-      st.lang === 'ar' ? 'اخترت العربية ! 🇲🇦' : 'Français choisi ! 🇫🇷',
-    );
+    const langConfirm = st.lang === 'ar'
+      ? '🇲🇦 <b>واخا — العربية!</b>'
+      : '🇫🇷 <b>Parfait — français !</b>';
+    await sendMessage(chatId, langConfirm);
     // Passer directement à "nouveau ou ancien"
     st.step = 'client_type';
     states.set(tgId, st);
     const prompt = st.lang === 'ar'
-      ? 'واش نتا عميل جديد فـ AdFill walla خدام معانا أصلاً؟'
-      : 'Es-tu un nouveau client AdFill ou tu utilises déjà l\'application ?';
+      ? '🎁 <b>جرب AdFill مجانا 7 أيام!</b>\n\nواش عندك أصلاً حساب معانا ولا غادي تبدا من الصفر ؟'
+      : '🎁 <b>Essaie AdFill gratuitement 7 jours !</b>\n\nTu as déjà un compte ou tu commences ?';
     await sendMessage(chatId, prompt, clientTypeKeyboard(st.lang));
     return;
   }
@@ -411,12 +464,10 @@ async function handleMessage(msg) {
   // ---- ÉTAPE 2 : Nouveau ou ancien client (géré par callbacks uniquement) ----
   if (st.step === 'client_type') {
     // Réafficher les boutons si l'utilisateur tape au lieu de cliquer
-    await sendMessage(chatId,
-      st.lang === 'ar'
-        ? 'واش نتا عميل جديد فـ AdFill walla خدام معانا أصلاً؟'
-        : 'Es-tu un nouveau client AdFill ou tu utilises déjà l\'application ?',
-      clientTypeKeyboard(st.lang)
-    );
+    const prompt = st.lang === 'ar'
+      ? '🎁 <b>جرب AdFill مجانا 7 أيام!</b>\n\nواش عندك أصلاً حساب معانا ولا غادي تبدا من الصفر ؟'
+      : '🎁 <b>Essaie AdFill gratuitement 7 jours !</b>\n\nTu as déjà un compte ou tu commences ?';
+    await sendMessage(chatId, prompt, clientTypeKeyboard(st.lang));
     return;
   }
 
@@ -447,7 +498,9 @@ async function handleMessage(msg) {
   // ---- Saisie email (nouveau client) ----
   if (st.step === 'email') {
     if (!text.includes('@') || !text.includes('.')) {
-      const msg = st.lang === 'ar' ? '⚠️ الإيميل ماشي صحيح. أرسل الإيميل ديالك بشكل صحيح.' : '⚠️ Email invalide. Envoie ton email correctement.';
+      const msg = st.lang === 'ar'
+        ? '⚠️ <b>الإيميل ما يبدوش صحيح</b>\n\nأعد الإرسال — مثال : nom@gmail.com'
+        : '⚠️ <b>L\'email ne semble pas valide</b>\n\nRéessaie — Ex : nom@gmail.com';
       await sendMessage(chatId, msg);
       return;
     }
@@ -455,8 +508,8 @@ async function handleMessage(msg) {
     st.step = 'phone';
     states.set(tgId, st);
     const msg = st.lang === 'ar'
-      ? '✅ الإيميل تم تسجيلو ! دابا أرسل <b>رقم التيليفون ديالك</b> (مع الكود الدولي) :'
-      : '✅ Email enregistré ! Maintenant, envoie ton <b>numéro de téléphone</b> (avec indicatif) :';
+      ? '✅ <b>تم تسجيل الإيميل!</b>\n\n📞 دابا أرسل <b>رقم التيليفون ديالك</b> (مع الكود الدولي) :\n\n(باش نأكدو حسابك — سريع وم secure 🔒)'
+      : '✅ <b>Email enregistré !</b>\n\n📞 Maintenant, envoie ton <b>numéro de téléphone</b> (avec indicatif pays) :\n\n(Pour sécuriser ton compte — rapide et safe 🔒)';
     await sendMessage(chatId, msg);
     return;
   }
@@ -511,8 +564,8 @@ async function handleMessage(msg) {
     states.set(tgId, st);
 
     const askPlatform = st.lang === 'ar'
-      ? 'واخا <b>' + text + '</b> ! دابا واش كتستخدم Android ولا Windows ؟'
-      : 'Merci <b>' + text + '</b> ! Quelle plateforme utilises-tu ?';
+      ? '🔥 <b>واخا بزاف خدام!</b> مرحبا بيك <b>' + text + '</b> — آخر خطوة!\n\n📱 واش كتستعمل <b>Android</b> ولا <b>Windows</b> ؟'
+      : '🔥 <b>Presque fini !</b> Merci <b>' + text + '</b> — dernière étape !\n\n📱 Tu utilises <b>Android</b> ou <b>Windows</b> ?';
     await sendMessage(chatId, askPlatform, platformKeyboardFr());
     return;
   }
@@ -598,8 +651,8 @@ async function handleMessage(msg) {
 
     if (isDownloadRequest && (!existing || !existing.platform)) {
       const msg = lang === 'ar'
-        ? '📥 باش تحمل التطبيق، أرسل /start واتبع الخطوات!'
-        : '📥 Pour télécharger, tape /start et suis les étapes !';
+        ? '🚀 <b>تريد تحمل AdFill؟</b> مرحبا!\n\n🎁 <b>جرب مجانا 7 أيام</b> — بلا ما needing بطاقة بنكية\n\n📋 أرسل <b>/start</b> باش تبدا التسجيل وتحصل على الروابط مباشرة!'
+        : '🚀 <b>Tu veux télécharger AdFill ?</b> Bienvenue !\n\n🎁 <b>Essaie gratuitement 7 jours</b> — sans carte bancaire\n\n📋 Tape <b>/start</b> pour t\'inscrire et recevoir les liens !';
       await sendMessage(chatId, msg);
       return;
     }
@@ -611,8 +664,8 @@ async function handleMessage(msg) {
 
     if (isHelpRequest) {
       const msg = lang === 'ar'
-        ? '🔧 باش تحل مشكلتك :\n1️⃣ أعد تشغيل التطبيق\n2️⃣ تأكد أن Android/Windows محدث\n3️⃣ تواصل معنا : adfillpro@gmail.com'
-        : '🔧 Pour résoudre ton problème :\n1️⃣ Redémarre l\'app\n2️⃣ Vérifie que ton OS est à jour\n3️⃣ Contacte-nous : adfillpro@gmail.com';
+        ? '🔧 <b>كناوين نعاونوك!</b>\n\n🔄 أعد تشغيل التطبيق\n✅ تأكد أن Android/Windows محدث\n📧 تواصل معنا : adfillpro@gmail.com\n\n✍️ كتب وصفا مفصلا للمشكلة وغادي نجاوبك!'
+        : '🔧 <b>On est là pour t\'aider !</b>\n\n🔄 Redémarre l\'application\n✅ Vérifie que ton OS est à jour\n📧 Contacte-nous : adfillpro@gmail.com\n\n✍️ Décris ton problème en détail et on te répond !';
       await sendMessage(chatId, msg);
       return;
     }
@@ -673,8 +726,8 @@ async function handleCallback(query) {
     st.step = 'email';
     states.set(tgId, st);
     const msg = lang === 'ar'
-      ? '🆕 واخا ! دابا سجل راسك.\n\nأول حاجة : أرسل <b>الإيميل ديالك</b> :'
-      : '🆕 Parfait ! Enregistre-toi.\n\nD\'abord, envoie ton <b>email</b> :';
+      ? '🎉 <b>مرحبا بيك!</b> تسجيل سريع وسلس.\n\n📧 أرسل <b>الإيميل ديالك</b> :\n\n(باش نصيفطولك آخر الأخبار والتحديثات)'
+      : '🎉 <b>Bienvenue !</b> Inscription rapide.\n\n📧 Envoie ton <b>email</b> :\n\n(Pour recevoir les dernières actualités et mises à jour)';
     await sendMessage(chatId, msg);
     return;
   }
@@ -684,8 +737,8 @@ async function handleCallback(query) {
     st.step = 'verify_old';
     states.set(tgId, st);
     const msg = lang === 'ar'
-      ? '🔄 واخا ! أرسل <b>رقم التيليفون</b> ديالك المسجل عندنا باش نتحققو من حسابك :'
-      : '🔄 D\'accord ! Envoie le <b>numéro de téléphone</b> enregistré chez nous pour vérifier ton compte :';
+      ? '🔄 <b>أهلا من جديد!</b>\n\n📞 أرسل <b>رقم التيليفون</b> ديالك المسجل عندنا باش نتحقق من حسابك :'
+      : '🔄 <b>Bon retour parmi nous !</b>\n\n📞 Envoie le <b>numéro de téléphone</b> enregistré chez nous pour vérifier ton compte :';
     await sendMessage(chatId, msg);
     return;
   }
