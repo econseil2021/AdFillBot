@@ -408,13 +408,15 @@ async function handleMessage(msg) {
     return;
   }
 
-  // ---- ÉTAPE 2 : Nouveau ou ancien client ----
+  // ---- ÉTAPE 2 : Nouveau ou ancien client (géré par callbacks uniquement) ----
   if (st.step === 'client_type') {
-    st.lang = isArabic(text) ? 'ar' : 'fr';
-    const q = st.lang === 'ar'
-      ? 'واش نتا عميل جديد فـ AdFill walla خدام معانا أصلاً؟'
-      : 'Es-tu un nouveau client AdFill ou tu utilises déjà l\'application ?';
-    await sendMessage(chatId, q, clientTypeKeyboard(st.lang));
+    // Réafficher les boutons si l'utilisateur tape au lieu de cliquer
+    await sendMessage(chatId,
+      st.lang === 'ar'
+        ? 'واش نتا عميل جديد فـ AdFill walla خدام معانا أصلاً؟'
+        : 'Es-tu un nouveau client AdFill ou tu utilises déjà l\'application ?',
+      clientTypeKeyboard(st.lang)
+    );
     return;
   }
 
@@ -499,6 +501,7 @@ async function handleMessage(msg) {
     const idx = testers.findIndex((t) => String(t.telegramId) === tgId);
     const tester = testers[idx];
     tester.name = text;
+    tester.lang = st.lang;
     tester.events = tester.events || [];
     tester.events.push({ date: new Date().toISOString(), event: 'registered' });
     saveTesters(testers);
@@ -691,13 +694,34 @@ async function handleCallback(query) {
   if (data === 'pick:android' || data === 'pick:windows') {
     const platform = data.split(':')[1];
     const lang = st.lang || 'fr';
+
+    // Si déjà inscrit (a un téléphone), juste changer la plateforme et donner accès
+    if (existing && existing.phone) {
+      existing.platform = platform;
+      const testers = loadTesters();
+      const idx = testers.findIndex((t) => String(t.telegramId) === tgId);
+      if (idx >= 0) testers[idx] = existing;
+      saveTesters(testers);
+      st.step = 'done';
+      st.platform = platform;
+      states.set(tgId, st);
+      logEvent(existing, 'pick', { platform });
+      await unlock(chatId, existing);
+      return;
+    }
+
+    // Nouveau client qui vient de s'inscrire → on a déjà le téléphone, on passe à la clé
+    const testers = loadTesters();
+    const idx = testers.findIndex((t) => String(t.telegramId) === tgId);
+    if (idx >= 0) {
+      testers[idx].platform = platform;
+      saveTesters(testers);
+    }
     st.platform = platform;
-    st.step = 'phone';
+    st.step = 'done';
     states.set(tgId, st);
-    const msg = lang === 'ar'
-      ? '📱 واخا اختاريتي : <b>' + (platform === 'android' ? 'Android' : 'Windows') + '</b>.\n\nباش تحصل على الروابط، سجّل راسك :\n📞 أرسل <b>رقم التيليفون ديالك</b> (مع الكود الدولي) :'
-      : '📱 Merci pour ton choix : <b>' + (platform === 'android' ? 'Android' : 'Windows') + '</b>.\n\nPour débloquer les liens, enregistre-toi :\n📞 Envoie ton <b>numéro de téléphone</b> (avec indicatif) :';
-    await sendMessage(chatId, msg);
+    logEvent({ telegramId: tgId }, 'pick', { platform });
+    await unlock(chatId, { telegramId: tgId, platform, lang, ...(existing || {}) });
     return;
   }
 
