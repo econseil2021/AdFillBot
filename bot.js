@@ -206,7 +206,10 @@ PERSONNALITÉ :
 - Tu détectes le besoin du client et tu lui donnes la bonne réponse immédiatement.
 
 LANGUE :
-- Détecte la langue et réponds dans la MÊME langue (français ou arabe).
+- Détecte la langue et réponds dans la MÊME langue.
+- Si l'utilisateur écrit en français → réponds en français.
+- Si l'utilisateur écrit en arabe → réponds en ARABE MAROCAIN (DARIJA). Utilise des mots marocains comme : شنو، واش، داكشي، بزاف، دابا، خلاص، واخا، سمح لي، بسلامة، إن شاء الله، ماشي، يالاه، زوين، خايب، عاوتاني. N'utilise JAMAIS d'arabe égyptien (ممكنش، إيه، هو ده، كده) ni d'arabe standard formel.
+- Quand tu réponds en darija, écris en caractères arabes mais avec le style parlé au Maroc.
 
 RÈGLES ABSOLUES :
 1. SI le client demande de télécharger / lien / apk / exe / application → DIS-lui de taper /start pour recevoir le lien directement. NE dis JAMAIS "va au menu" ou "utilise les boutons". Donne la marche à suivre claire.
@@ -321,27 +324,27 @@ function isArabic(text) {
 }
 
 const MSG = {
-  welcome: (t) => isArabic(t) ? 'مرحباً في بيتا AdFill 🚀\n\nAdFill يملأ إعلاناتك تلقائياً على Avito.ma.\n\nجرّب التطبيق وأخبرنا برأيك !' : CONFIG.welcomeText,
-  welcomeBack: (t) => isArabic(t) ? '👋 أهلاً بعودتك! أنت مسجل بالفعل.\nحمّل مرة أخرى أو اطرح سؤالاً :' : '👋 Bon retour ! Vous êtes déjà enregistré.\nTéléchargez à nouveau ou posez une question :',
-  platformChoice: (t, p) => isArabic(t) ? '📱 شكراً لاختيارك : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nلفتح الملفات، سجّل نفسك :\n📞 أرسل <b>رقم هاتفك</b> (مع الرمز الدولي) :' : '📱 Merci pour votre choix : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nPour débloquer les fichiers, enregistrez-vous :\n📞 Envoyez votre <b>numéro de téléphone</b> (avec indicatif) :',
-  invalidPhone: (t) => isArabic(t) ? '⚠️ هذا الرقم غير صالح. أرسل رقماً مع الرمز الدولي، مثال : +212 6 12 34 56 78' : '⚠️ Ce numéro ne semble pas valide. Envoyez un numéro avec indicatif, ex : +212 6 12 34 56 78',
-  phoneUsed: (t) => isArabic(t) ? '⚠️ هذا الرقم مسجل لحساب آخر. استخدم رقماً آخر أو تواصل مع الدعم.' : '⚠️ Ce numéro est déjà enregistré pour un autre compte. Utilisez un autre numéro ou contactez le support.',
-  otpSent: (t, code) => isArabic(t) ? '📱 <b>التحقق من الرقم</b>\n\nتم إرسال رمز التحقق على هاتفك عبر Telegram.\n\n🔑 الرمز الخاص بك : <b>' + code + '</b>\n\nأرسل هذا الرمز للتحقق من رقمك :' : '📱 <b>Vérification du numéro</b>\n\nUn code de vérification a été envoyé sur votre téléphone via Telegram.\n\n🔑 Votre code : <b>' + code + '</b>\n\nEnvoyez ce code pour valider votre numéro :',
-  otpWrong: (t) => isArabic(t) ? '❌ الرمز غير صحيح. حاول مرة أخرى أو أرسل /annuler للبدء من جديد.' : '❌ Code incorrect. Réessayez ou envoyez /annuler pour recommencer.',
-  otpOk: (t) => isArabic(t) ? '✅ تم التحقق من الرقم ! الآن، <b>اسمك الكامل</b> :' : '✅ Numéro vérifié ! Maintenant, votre <b>nom et prénom</b> :',
-  invalidName: (t) => isArabic(t) ? '⚠️ اسمك قصير جداً. أرسل اسمك الكامل، مثال : أحمد بنعلي' : '⚠️ Votre nom est un peu court. Envoyez votre nom et prénom, ex : Ahmed Benali',
-  askKey: (t) => isArabic(t) ? '🔑 هل لديك <b>مفتاح ترخيص</b> ؟ (اختياري للاختبار)' : '🔑 Avez-vous une <b>clé de licence</b> ? (facultatif pour le test bêta)',
-  keyVerifying: (t) => isArabic(t) ? '⏳ جاري التحقق من مفتاحك…' : '⏳ Vérification de votre clé…',
-  keyValid: (t, pack) => isArabic(t) ? '✅ مفتاح صالح — الباقة <b>' + (pack || '') + '</b> !\nجاري فتح الملفات.' : '✅ Clé valide — pack <b>' + (pack || '') + '</b> !\nJe débloque maintenant les fichiers.',
-  keyInvalid: (t, err) => isArabic(t) ? '⚠️ المفتاح غير معروف : <i>' + (err || 'مفتاح غير صالح') + '</i>.\nللاختبار، يمكنك المتابعة بدون مفتاح (تجربة مجانية متاحة في التطبيق).\nهل تريد المتابعة ؟' : '⚠️ Clé non reconnue : <i>' + (err || 'Clé invalide') + '</i>.\nPour ce test bêta, vous pouvez continuer sans clé (essai gratuit disponible dans l\u2019app).\nSouhaitez-vous continuer ?',
-  noKey: (t) => isArabic(t) ? '👍 لا مشكلة — التجربة المجانية متاحة في التطبيق.' : '👍 Pas de problème — l\u2019essai gratuit est disponible dans l\u2019application.',
-  sent: (t) => isArabic(t) ? '✅ تم إرسال الرابط. اختبر جيداً ! في حالة مشكلة، تواصل مع الدعم.' : '✅ Lien envoyé. Bon test ! En cas de problème, contacte le support.',
-  androidNotReady: (t) => isArabic(t) ? '⚠️ رابط Android غير مُعد بعد. تواصل مع الدعم.' : '⚠️ Le lien Android n\u2019est pas encore configuré. Contacte le support.',
-  windowsNotReady: (t) => isArabic(t) ? '⚠️ روابط Windows غير مُعدة بعد. تواصل مع الدعم.' : '⚠️ Les liens Windows ne sont pas encore configurés. Contacte le support.',
-  cancel: (t) => isArabic(t) ? '🔄 تم الإلغاء. أرسل /start للبدء من جديد.' : '🔄 Processus annulé. Tapez /start pour recommencer.',
-  help: (t) => isArabic(t) ? 'ℹ️ <b>مساعدة AdFill</b>\n\nاختر موضوعاً أو اطرح سؤالك مباشرة :' : 'ℹ️ <b>Aide AdFill</b>\n\nChoisissez un sujet ou posez votre question directement :',
-  fallback: (t) => isArabic(t) ? '🤖 اطرح سؤالك أو أرسل /aide لعرض المواضيع المتاحة.\nللبدء، أرسل /start.' : '🤖 Posez votre question ou tapez /aide pour voir les sujets disponibles.\nPour commencer, tapez /start.',
-  unknownCmd: (t) => isArabic(t) ? 'أمر غير معروف. أرسل /start أو /aide' : 'Commande inconnue. Tapez /start ou /aide',
+  welcome: (t) => isArabic(t) ? 'مرحبا بيك فـ AdFill ! 🚀\n\nAdFill كيملأ إعلاناتك بشكل تلقائي على Avito.ma.\n\nجرب التطبيق وقولنا رأيك !' : CONFIG.welcomeText,
+  welcomeBack: (t) => isArabic(t) ? '👋 واخا رجعتي ! نتا مسجل أصلاً.\nحمّل من جديد أو سول على شي حاجة :' : '👋 Bon retour ! Vous êtes déjà enregistré.\nTéléchargez à nouveau ou posez une question :',
+  platformChoice: (t, p) => isArabic(t) ? '📱 واخا اختاريتي : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nباش تحصل على الروابط، سجّل راسك :\n📞 أرسل <b>رقم التيليفون ديالك</b> (مع الكود الدولي) :' : '📱 Merci pour votre choix : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nPour débloquer les fichiers, enregistrez-vous :\n📞 Envoyez votre <b>numéro de téléphone</b> (avec indicatif) :',
+  invalidPhone: (t) => isArabic(t) ? '⚠️ هاد ماشي رقم صحيح. أرسل رقم مع الكود، مثال : +212 6 12 34 56 78' : '⚠️ Ce numéro ne semble pas valide. Envoyez un numéro avec indicatif, ex : +212 6 12 34 56 78',
+  phoneUsed: (t) => isArabic(t) ? '⚠️ هاد الرقم مسجل عند حساب خر. استعمل رقم خر أو تواصل مع الدعم.' : '⚠️ Ce numéro est déjà enregistré pour un autre compte. Utilisez un autre numéro ou contactez le support.',
+  otpSent: (t, code) => isArabic(t) ? '📱 <b>تأكيد الرقم</b>\n\nصيفطنا لك كود التأكيد على التيليفون ديالك عبر Telegram.\n\n🔑 الكود ديالك : <b>' + code + '</b>\n\nأرسل هاد الكود باش تأكد رقمك :' : '📱 <b>Vérification du numéro</b>\n\nUn code de vérification a été envoyé sur votre téléphone via Telegram.\n\n🔑 Votre code : <b>' + code + '</b>\n\nEnvoyez ce code pour valider votre numéro :',
+  otpWrong: (t) => isArabic(t) ? '❌ الكود ماشي صحيح. عاوتاني أو أرسل /annuler باش تبدا من اللول.' : '❌ Code incorrect. Réessayez ou envoyez /annuler pour recommencer.',
+  otpOk: (t) => isArabic(t) ? '✅ تم التأكد من الرقم ! دابا، <b>الاسم الكامل ديالك</b> :' : '✅ Numéro vérifié ! Maintenant, votre <b>nom et prénom</b> :',
+  invalidName: (t) => isArabic(t) ? '⚠️ الاسم قصير بزاف. أرسل الاسم الكامل ديالك، مثال : أحمد بنعلي' : '⚠️ Votre nom est un peu court. Envoyez votre nom et prénom, ex : Ahmed Benali',
+  askKey: (t) => isArabic(t) ? '🔑 واش عندك <b>مفتاح الترخيص</b> ؟ (اختياري للتجربة)' : '🔑 Avez-vous une <b>clé de licence</b> ? (facultatif pour le test bêta)',
+  keyVerifying: (t) => isArabic(t) ? '⏳ كن verificaو المفتاح ديالك…' : '⏳ Vérification de votre clé…',
+  keyValid: (t, pack) => isArabic(t) ? '✅ المفتاح صحيح — الباقة <b>' + (pack || '') + '</b> !\nكنفتحو لك الروابط دابا.' : '✅ Clé valide — pack <b>' + (pack || '') + '</b> !\nJe débloque maintenant les fichiers.',
+  keyInvalid: (t, err) => isArabic(t) ? '⚠️ المفتاح ماشي معروف : <i>' + (err || 'مفتاح خايب') + '</i>.\nللتجربة، تقدر تكمل بلا مفتاح (تجربة مجانية كاينة فـ التطبيق).\nواش بغيتي تكمل ؟' : '⚠️ Clé non reconnue : <i>' + (err || 'Clé invalide') + '</i>.\nPour ce test bêta, vous pouvez continuer sans clé (essai gratuit disponible dans l\u2019app).\nSouhaitez-vous continuer ?',
+  noKey: (t) => isArabic(t) ? '👍 ماشي مشكلة — التجربة المجانية كاينة فـ التطبيق.' : '👍 Pas de problème — l\u2019essai gratuit est disponible dans l\u2019application.',
+  sent: (t) => isArabic(t) ? '✅ الروابط وصلوك. جرب مزيان ! إلا كان مشكلة، تواصل مع الدعم.' : '✅ Lien envoyé. Bon test ! En cas de problème, contacte le support.',
+  androidNotReady: (t) => isArabic(t) ? '⚠️ رابط Android مزال ما مجهّزش. تواصل مع الدعم.' : '⚠️ Le lien Android n\u2019est pas encore configuré. Contacte le support.',
+  windowsNotReady: (t) => isArabic(t) ? '⚠️ روابط Windows مزالين ما مجهّزينش. تواصل مع الدعم.' : '⚠️ Les liens Windows ne sont pas encore configurés. Contacte le support.',
+  cancel: (t) => isArabic(t) ? '🔄 واخا لغينا. أرسل /start باش تبدا من اللول.' : '🔄 Processus annulé. Tapez /start pour recommencer.',
+  help: (t) => isArabic(t) ? 'ℹ️ <b>مساعدة AdFill</b>\n\nاختار موضوع أو سول على شي حاجة مباشرة :' : 'ℹ️ <b>Aide AdFill</b>\n\nChoisissez un sujet ou posez votre question directement :',
+  fallback: (t) => isArabic(t) ? '🤖 سول على شي حاجة أو أرسل /aide باش تشوف المواضيع.\nباش تبدا، أرسل /start.' : '🤖 Posez votre question ou tapez /aide pour voir les sujets disponibles.\nPour commencer, tapez /start.',
+  unknownCmd: (t) => isArabic(t) ? 'أمر ما مفهمش. أرسل /start أو /aide' : 'Commande inconnue. Tapez /start ou /aide',
 };
 
 // ---------------- États de dialogue ----------------
@@ -506,7 +509,7 @@ async function handleMessage(msg) {
     if (isDownloadRequest && (!existing || !existing.platform)) {
       // Nouveau → guide vers /start
       const msg = isArabic(lang)
-        ? '📥 للتحميل، اتبع الخطوات البسيطة :\n\n1️⃣ اضغط /start\n2️⃣ اختر Android أو Windows\n3️⃣ سجّل رقمك واسمك\n4️⃣ تتلقى الرابط مباشرة !\n\nجاهز ؟ اضغط /start'
+        ? '📥 باش تحمل التطبيق، سير بالخطوات البسيطة :\n\n1️⃣ أرسل /start\n2️⃣ اختار Android أو Windows\n3️⃣ سجّل رقمك وسميك\n4️⃣ غادي تحصل على الرابط مباشرة !\n\nواخا ؟ أرسل /start'
         : '📥 Pour télécharger, suis ces étapes simples :\n\n1️⃣ Tape /start\n2️⃣ Choisis Android ou Windows\n3️⃣ Enregistre ton numéro et nom\n4️⃣ Tu reçois le lien directement !\n\nPrêt ? Tape /start';
       await sendMessage(chatId, msg);
       return;
@@ -520,7 +523,7 @@ async function handleMessage(msg) {
     if (isHelpRequest && existing && existing.platform) {
       // Client inscrit avec problème → propose le support
       const msg = isArabic(lang)
-        ? '🔧 لحل مشكلتك:\n\n1️⃣ أعد تشغيل التطبيق\n2️⃣ تحقق من تحديث Android/Windows\n3️⃣ إذا استمرت المشكلة، تواصل معنا :\n📧 adfillpro@gmail.com\n\nوصف مشكلتك بالتفصيل وسنساعدك!'
+        ? '🔧 باش تحل مشكلتك :\n\n1️⃣ أعد تشغيل التطبيق\n2️⃣ تأكد أن Android/Windows محدث\n3️⃣ إلا بقات المشكلة، تواصل معنا :\n📧 adfillpro@gmail.com\n\nصيفط لي وصف م详细 للمشكلة وغادي نعاونك!'
         : '🔧 Pour résoudre ton problème :\n\n1️⃣ Redémarre l\'application\n2️⃣ Vérifie que ton Android/Windows est à jour\n3️⃣ Si le problème persiste, contacte-nous :\n📧 adfillpro@gmail.com\n\nDécris ton problème en détail et on t\'aide !';
       await sendMessage(chatId, msg);
       return;
@@ -533,7 +536,7 @@ async function handleMessage(msg) {
 
     if (isAbuse) {
       const msg = isArabic(lang)
-        ? '🤔 يبدو أنك تختبر البوت. AdFill متاح للجميع!\n\n📥 للتحميل: اضغط /start\n💬 للأسئلة: اكتب سؤالك مباشرة\n📧 للدعم: adfillpro@gmail.com'
+        ? '🤔 واش كت testa البوت ؟ AdFill متاح للجميع!\n\n📥 باش تحمل : أرسل /start\n💬 للأسئلة : كتب سؤالك مباشرة\n📧 للدعم : adfillpro@gmail.com'
         : '🤔 On dirait que tu testes le bot. AdFill est disponible pour tous !\n\n📥 Pour télécharger : tape /start\n💬 Pour des questions : écris directement\n📧 Pour le support : adfillpro@gmail.com';
       await sendMessage(chatId, msg);
       return;
@@ -586,7 +589,7 @@ async function handleCallback(query) {
     st.step = 'key';
     states.set(tgId, st);
     const lang = st.lang || 'fr';
-    await sendMessage(chatId, isArabic(lang) ? '🔑 أرسل <b>مفتاح الترخيص</b> (مثال : ADFILL-XXXX-XXXX) :' : '🔑 Envoyez votre <b>clé de licence</b> (ex : ADFILL-XXXX-XXXX) :');
+    await sendMessage(chatId, isArabic(lang) ? '🔑 أرسل <b>مفتاح الترخيص ديالك</b> (مثال : ADFILL-XXXX-XXXX) :' : '🔑 Envoyez votre <b>clé de licence</b> (ex : ADFILL-XXXX-XXXX) :');
     return;
   }
 
