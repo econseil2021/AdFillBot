@@ -202,11 +202,13 @@ LANGUE :
 - Quand tu réponds en darija, écris en caractères arabes mais avec le style parlé au Maroc.
 
 RÈGLES ABSOLUES :
-1. SI le client demande de télécharger / lien / apk / exe / application → DIS-lui de taper /start pour recevoir le lien directement. NE dis JAMAIS "va au menu" ou "utilise les boutons". Donne la marche à suivre claire.
-2. SI le client est déjà inscrit (a déjà donné son numéro) → propose directement les liens de téléchargement.
-3. SI c'est un nouveau client → souligne l'essai gratuit 7 jours, puis guide-le vers /start pour s'inscrire.
-4. Si le client semble confus ou perdu → résume en 3 étapes simples : "1. Tape /start 2. Choisis Android ou Windows 3. Enregistre-toi et tu reçois le lien".
-5. Si le client pose des questions hors-sujet ou semble abuser du bot → sois poli mais redirige vers le support.
+1. SI le client demande de télécharger / lien / apk / exe / application sans problème → envoie le lien ou dis-lui de taper /start.
+2. SI le client a un PROBLÈME (téléchargement, installation, erreur, crash) → d'abord écoute et aide. Pose des questions pour comprendre. NE renvoie PAS le lien aveuglément.
+3. SI le client est déjà inscrit (a déjà donné son numéro) → propose directement les liens de téléchargement.
+4. SI c'est un nouveau client → souligne l'essai gratuit 7 jours, puis guide-le vers /start pour s'inscrire.
+5. Si le client semble confus ou perdu → résume en 3 étapes simples.
+6. Si le client pose des questions hors-sujet ou semble abuser du bot → sois poli mais redirige vers le support.
+7. JAMAIS de répétition — chaque réponse doit apporter quelque chose de NOUVEAU.
 
 STYLE DE RÉPONSE :
 - Sois enthousiaste mais professionnel — montre la valeur d'AdFill.
@@ -634,55 +636,24 @@ async function handleMessage(msg) {
     return;
   }
 
-  // ---------------- Fallback : détection intelligente + IA Groq ----------------
+  // ---------------- Fallback : IA Groq gère tout ----------------
   if (text && !text.startsWith('/')) {
     const lang = st.lang || 'fr';
+
+    // Si le client est inscrit et demande un lien → envoi direct
     const lowerText = text.toLowerCase();
+    const directLinkWords = ['lien', 'télécharger', 'telecharger', 'download', 'apk', 'exe',
+      'رابط', 'تحميل', 'حمّل', 'تنزيل', 'envoyer lien', 'send link'];
+    const isDirectAsk = directLinkWords.some((kw) => lowerText.includes(kw));
+    const hasProbleme = ['problème', 'probleme', 'erreur', 'marche pas', 'crash', 'bug',
+      'مشكلة', 'ما خدامش', 'خطأ', 'تثبيت', 'installer', 'installation'].some((kw) => lowerText.includes(kw));
 
-    // Détection demande de téléchargement
-    const downloadKeywords = ['télécharger', 'telecharger', 'download', 'apk', 'exe', 'lien', 'liens',
-      'حمّل', 'تحميل', 'رابط', 'روابط', 'تنزيل', ' link', 'get', 'envoi', 'envoyer'];
-    const isDownloadRequest = downloadKeywords.some((kw) => lowerText.includes(kw));
-
-    if (isDownloadRequest && existing && existing.platform) {
+    if (isDirectAsk && !hasProbleme && existing && existing.platform) {
       await unlock(chatId, existing);
       return;
     }
 
-    if (isDownloadRequest && (!existing || !existing.platform)) {
-      const msg = lang === 'ar'
-        ? '🚀 <b>تريد تحمل AdFill؟</b> مرحبا!\n\n🎁 <b>جرب مجانا 7 أيام</b> — بلا ما needing بطاقة بنكية\n\n📋 أرسل <b>/start</b> باش تبدا التسجيل وتحصل على الروابط مباشرة!'
-        : '🚀 <b>Tu veux télécharger AdFill ?</b> Bienvenue !\n\n🎁 <b>Essaie gratuitement 7 jours</b> — sans carte bancaire\n\n📋 Tape <b>/start</b> pour t\'inscrire et recevoir les liens !';
-      await sendMessage(chatId, msg);
-      return;
-    }
-
-    // Détection problème / aide
-    const helpKeywords = ['installer', 'installation', 'marche pas', 'problème', 'erreur', 'crash',
-      'تثبيت', 'ما خدامش', 'مشكلة', 'خطأ', 'bug', 'aide', 'comment'];
-    const isHelpRequest = helpKeywords.some((kw) => lowerText.includes(kw));
-
-    if (isHelpRequest) {
-      const msg = lang === 'ar'
-        ? '🔧 <b>كناوين نعاونوك!</b>\n\n🔄 أعد تشغيل التطبيق\n✅ تأكد أن Android/Windows محدث\n📧 تواصل معنا : adfillpro@gmail.com\n\n✍️ كتب وصفا مفصلا للمشكلة وغادي نجاوبك!'
-        : '🔧 <b>On est là pour t\'aider !</b>\n\n🔄 Redémarre l\'application\n✅ Vérifie que ton OS est à jour\n📧 Contacte-nous : adfillpro@gmail.com\n\n✍️ Décris ton problème en détail et on te répond !';
-      await sendMessage(chatId, msg);
-      return;
-    }
-
-    // Détection abus
-    const abusePatterns = ['hack', 'crack', 'free premium', 'pirate', '123', 'abc', 'test test'];
-    const isAbuse = abusePatterns.some((p) => lowerText.includes(p));
-
-    if (isAbuse) {
-      const msg = lang === 'ar'
-        ? '🤔 واش كت testa البوت؟ AdFill متاح للجميع!\n📥 أرسل /start باش تحمل'
-        : '🤔 Tu testes le bot ? AdFill est pour tous !\n📥 Tape /start pour télécharger';
-      await sendMessage(chatId, msg);
-      return;
-    }
-
-    // IA Groq
+    // Tout le reste → IA (elle comprend le contexte, les problèmes, les questions)
     const reply = await askAI(text, tgId);
     if (reply) {
       const safe = reply.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
