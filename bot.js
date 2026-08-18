@@ -198,34 +198,60 @@ function buildFAQContext() {
 const GROQ_KEY = process.env.GROQ_API_KEY || '';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-const SYSTEM_PROMPT = `Tu es AdFillBot, l'assistant Telegram officiel d'AdFill — un outil d'automatisation de remplissage d'annonces sur Avito.ma.
+const SYSTEM_PROMPT = `Tu es AdFillBot, un commercial expert et assistant technique pour AdFill — un outil d'automatisation de remplissage d'annonces sur Avito.ma au Maroc.
 
-RÈGLES STRICTES :
-- Détecte la langue de l'utilisateur et réponds dans la MÊME langue (français ou arabe).
-- Si l'utilisateur écrit en arabe → réponds en arabe.
-- Si l'utilisateur écrit en français → réponds en français.
-- Sois bref et direct (2-4 lignes max sauf si l'utilisateur demande plus de détails).
-- Utilise un ton amical et professionnel.
-- Si tu ne connais pas la réponse, dis-le honnêtement et oriente vers le support (adfillpro@gmail.com).
-- N'invente JAMAIS de fonctionnalités, de prix ou de dates.
-- Pour les questions techniques complexes, recommande de contacter le support.
-- Ne utilise PAS de balises <thinking> ou </thinking>. Réponds directement.
+PERSONNALITÉ :
+- Tu es un vendeur compétent et un assistant technique. Tu guides le client du début à la fin.
+- Tu es chaleureux, patient, et tu parles comme un ami expert.
+- Tu détectes le besoin du client et tu lui donnes la bonne réponse immédiatement.
 
-CONTEXTE SUR ADFILL :
-${buildFAQContext()}
+LANGUE :
+- Détecte la langue et réponds dans la MÊME langue (français ou arabe).
 
-Tarifs :
-- Free : 3 produits, 1 machine, gratuit
+RÈGLES ABSOLUES :
+1. SI le client demande de télécharger / lien / apk / exe / application → DIS-lui de taper /start pour recevoir le lien directement. NE dis JAMAIS "va au menu" ou "utilise les boutons". Donne la marche à suivre claire.
+2. SI le client est déjà inscrit (a déjà donné son numéro) → propose directement les liens de téléchargement.
+3. SI c'est un nouveau client → pose 2-3 questions pour comprendre son besoin (quel téléphone/PC, qu'est-ce qu'il veut faire) puis guide-le vers /start.
+4. Si le client semble confus ou perdu → résume en 3 étapes simples : "1. Tape /start 2. Choisis Android ou Windows 3. Enregistre-toi et tu reçois le lien".
+5. Si le client pose des questions hors-sujet ou semble abuser du bot → sois poli mais redirige vers le support.
+
+STYLE DE RÉPONSE :
+- Utilise des emojis pour rendre les réponses vivantes.
+- Sois bref (3-5 lignes) sauf si le client demande des détails.
+- Termine toujours par un appel à l'action clair.
+- N'invente JAMAIS de fonctionnalités, prix ou dates.
+
+TARIFS :
+- Free : 3 produits, 1 machine, gratuit (essai 7 jours)
 - Basic : 10 produits, 1 machine, 299 DH/mois
 - Business : 100 produits, 3 machines, 599 DH/mois
 - Business Pro : 200 produits, 5 machines, IA + images, 1199 DH/mois
 
 Plateformes : Android (APK) et Windows (EXE portable/setup).
-Contact : adfillpro@gmail.com`;
+Contact support : adfillpro@gmail.com
 
-async function askAI(userMessage) {
+CONTEXTE FAQ :
+${buildFAQContext()}`;
+
+function buildUserContext(tgId) {
+  const existing = getTester(tgId);
+  const st = states.get(tgId) || {};
+  let ctx = '';
+  if (existing && existing.platform) {
+    ctx = `CONTEXTE UTILISATEUR : Client déjà inscrit. Plateforme: ${existing.platform}. Nom: ${existing.name || 'inconnu'}.`;
+  } else {
+    ctx = `CONTEXTE UTILISATEUR : Nouveau visiteur, pas encore inscrit.`;
+  }
+  if (st.step && st.step !== 'done' && st.step !== 'start') {
+    ctx += ` État inscription: en cours (étape ${st.step}).`;
+  }
+  return ctx;
+}
+
+async function askAI(userMessage, tgId) {
   if (!GROQ_KEY) return null;
   try {
+    const userCtx = buildUserContext(tgId);
     const res = await fetch(GROQ_URL, {
       method: 'POST',
       headers: {
@@ -235,7 +261,7 @@ async function askAI(userMessage) {
       body: JSON.stringify({
         model: 'qwen/qwen3.6-27b',
         messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'system', content: SYSTEM_PROMPT + '\n\n' + userCtx },
           { role: 'user', content: userMessage },
         ],
         max_tokens: 2000,
@@ -461,9 +487,60 @@ async function handleMessage(msg) {
     return;
   }
 
-  // ---------------- Fallback : IA Groq ----------------
+  // ---------------- Fallback : détection intelligente + IA Groq ----------------
   if (text && !text.startsWith('/')) {
-    const reply = await askAI(text);
+    const lang = st.lang || 'fr';
+    const lowerText = text.toLowerCase();
+
+    // Détection demande de téléchargement
+    const downloadKeywords = ['télécharger', 'telecharger', 'download', 'apk', 'exe', 'lien', 'liens',
+      'حمّل', 'تحميل', 'رابط', 'روابط', 'تنزيل', ' скачат', 'get', 'link', 'envoi', 'envoyer'];
+    const isDownloadRequest = downloadKeywords.some((kw) => lowerText.includes(kw));
+
+    if (isDownloadRequest && existing && existing.platform) {
+      // Client inscrit → envoi direct du lien
+      await unlock(chatId, existing);
+      return;
+    }
+
+    if (isDownloadRequest && (!existing || !existing.platform)) {
+      // Nouveau → guide vers /start
+      const msg = isArabic(lang)
+        ? '📥 للتحميل، اتبع الخطوات البسيطة :\n\n1️⃣ اضغط /start\n2️⃣ اختر Android أو Windows\n3️⃣ سجّل رقمك واسمك\n4️⃣ تتلقى الرابط مباشرة !\n\nجاهز ؟ اضغط /start'
+        : '📥 Pour télécharger, suis ces étapes simples :\n\n1️⃣ Tape /start\n2️⃣ Choisis Android ou Windows\n3️⃣ Enregistre ton numéro et nom\n4️⃣ Tu reçois le lien directement !\n\nPrêt ? Tape /start';
+      await sendMessage(chatId, msg);
+      return;
+    }
+
+    // Détection demande d'aide / installation / problème
+    const helpKeywords = ['installer', 'installation', 'marche pas', 'problème', 'erreur', 'crash',
+      'تثبيت', 'ما خدامش', 'مشكلة', 'خطأ', 'bug', 'aide', 'comment'];
+    const isHelpRequest = helpKeywords.some((kw) => lowerText.includes(kw));
+
+    if (isHelpRequest && existing && existing.platform) {
+      // Client inscrit avec problème → propose le support
+      const msg = isArabic(lang)
+        ? '🔧 لحل مشكلتك:\n\n1️⃣ أعد تشغيل التطبيق\n2️⃣ تحقق من تحديث Android/Windows\n3️⃣ إذا استمرت المشكلة، تواصل معنا :\n📧 adfillpro@gmail.com\n\nوصف مشكلتك بالتفصيل وسنساعدك!'
+        : '🔧 Pour résoudre ton problème :\n\n1️⃣ Redémarre l\'application\n2️⃣ Vérifie que ton Android/Windows est à jour\n3️⃣ Si le problème persiste, contacte-nous :\n📧 adfillpro@gmail.com\n\nDécris ton problème en détail et on t\'aide !';
+      await sendMessage(chatId, msg);
+      return;
+    }
+
+    // Détection tentative d'abus / spam / hors-sujet
+    const abusePatterns = ['hack', 'crack', 'gratuit forever', 'pirate', 'free premium', 'contourner', 'bypass',
+      'كلمات عشوائية', '-test', 'test test', '123', 'abc'];
+    const isAbuse = abusePatterns.some((p) => lowerText.includes(p));
+
+    if (isAbuse) {
+      const msg = isArabic(lang)
+        ? '🤔 يبدو أنك تختبر البوت. AdFill متاح للجميع!\n\n📥 للتحميل: اضغط /start\n💬 للأسئلة: اكتب سؤالك مباشرة\n📧 للدعم: adfillpro@gmail.com'
+        : '🤔 On dirait que tu testes le bot. AdFill est disponible pour tous !\n\n📥 Pour télécharger : tape /start\n💬 Pour des questions : écris directement\n📧 Pour le support : adfillpro@gmail.com';
+      await sendMessage(chatId, msg);
+      return;
+    }
+
+    // IA Groq pour les vraies questions
+    const reply = await askAI(text, tgId);
     if (reply) {
       const safe = reply.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       await sendMessage(chatId, safe);
