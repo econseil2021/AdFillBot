@@ -90,22 +90,6 @@ function inlineKeyboard(rows) {
   return JSON.stringify({ inline_keyboard: rows });
 }
 
-function mainMenuKeyboard() {
-  return inlineKeyboard([
-    [{ text: '📱 Je teste Android', callback_data: 'pick:android' }],
-    [{ text: '💻 Je teste Windows', callback_data: 'pick:windows' }],
-    [{ text: '❓ Aide & Questions', callback_data: 'faq:back' }],
-  ]);
-}
-
-function registeredMenuKeyboard() {
-  return inlineKeyboard([
-    [{ text: '📱 Re-télécharger Android', callback_data: 'pick:android' }],
-    [{ text: '💻 Lien Windows', callback_data: 'pick:windows' }],
-    [{ text: '❓ Aide & Questions', callback_data: 'faq:back' }],
-  ]);
-}
-
 function keyKeyboard() {
   return inlineKeyboard([
     [{ text: '🔑 J\u2019ai une clé de licence', callback_data: 'key:yes' }],
@@ -146,6 +130,7 @@ async function sendWindowsLink(chatId, tester) {
 }
 
 async function unlock(chatId, tester) {
+  const lang = tester.lang || 'fr';
   if (tester.platform === 'android') {
     logEvent(tester, 'download', { platform: 'android', version: CONFIG.apkVersion });
     await sendAndroidLink(chatId, tester);
@@ -153,7 +138,10 @@ async function unlock(chatId, tester) {
     logEvent(tester, 'download', { platform: 'windows', version: CONFIG.apkVersion });
     await sendWindowsLink(chatId, tester);
   }
-  await sendMessage(chatId, '✅ Lien envoyé. Bon test ! En cas de problème, contacte le support.');
+  const msg = lang === 'ar'
+    ? '✅ الروابط تم إرسالهم. واخا للاختبار ! إلا واجهتي مشكلة، تواصل معنا : adfillpro@gmail.com'
+    : '✅ Liens envoyés. Bon test ! En cas de problème, contacte le support : adfillpro@gmail.com';
+  await sendMessage(chatId, msg);
 }
 
 // ---------------- Validation Supabase ----------------
@@ -326,31 +314,50 @@ function isArabic(text) {
 }
 
 const MSG = {
-  welcome: (t) => isArabic(t) ? 'مرحبا بيك فـ AdFill ! 🚀\n\nAdFill كيملأ إعلاناتك بشكل تلقائي على Avito.ma.\n\nجرب التطبيق وقولنا رأيك !' : CONFIG.welcomeText,
-  welcomeBack: (t) => isArabic(t) ? '👋 واخا رجعتي ! نتا مسجل أصلاً.\nحمّل من جديد أو سول على شي حاجة :' : '👋 Bon retour ! Vous êtes déjà enregistré.\nTéléchargez à nouveau ou posez une question :',
-  platformChoice: (t, p) => isArabic(t) ? '📱 واخا اختاريتي : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nباش تحصل على الروابط، سجّل راسك :\n📞 أرسل <b>رقم التيليفون ديالك</b> (مع الكود الدولي) :' : '📱 Merci pour votre choix : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nPour débloquer les fichiers, enregistrez-vous :\n📞 Envoyez votre <b>numéro de téléphone</b> (avec indicatif) :',
-  invalidPhone: (t) => isArabic(t) ? '⚠️ هاد ماشي رقم صحيح. أرسل رقم مع الكود، مثال : +212 6 12 34 56 78' : '⚠️ Ce numéro ne semble pas valide. Envoyez un numéro avec indicatif, ex : +212 6 12 34 56 78',
-  phoneUsed: (t) => isArabic(t) ? '⚠️ هاد الرقم مسجل عند حساب خر. استعمل رقم خر أو تواصل مع الدعم.' : '⚠️ Ce numéro est déjà enregistré pour un autre compte. Utilisez un autre numéro ou contactez le support.',
-  otpSent: (t, code) => isArabic(t) ? '📱 <b>تأكيد الرقم</b>\n\nصيفطنا لك كود التأكيد على التيليفون ديالك عبر Telegram.\n\n🔑 الكود ديالك : <b>' + code + '</b>\n\nأرسل هاد الكود باش تأكد رقمك :' : '📱 <b>Vérification du numéro</b>\n\nUn code de vérification a été envoyé sur votre téléphone via Telegram.\n\n🔑 Votre code : <b>' + code + '</b>\n\nEnvoyez ce code pour valider votre numéro :',
-  otpWrong: (t) => isArabic(t) ? '❌ الكود ماشي صحيح. عاوتاني أو أرسل /annuler باش تبدا من اللول.' : '❌ Code incorrect. Réessayez ou envoyez /annuler pour recommencer.',
-  otpOk: (t) => isArabic(t) ? '✅ تم التأكد من الرقم ! دابا، <b>الاسم الكامل ديالك</b> :' : '✅ Numéro vérifié ! Maintenant, votre <b>nom et prénom</b> :',
-  invalidName: (t) => isArabic(t) ? '⚠️ الاسم قصير بزاف. أرسل الاسم الكامل ديالك، مثال : أحمد بنعلي' : '⚠️ Votre nom est un peu court. Envoyez votre nom et prénom, ex : Ahmed Benali',
-  askKey: (t) => isArabic(t) ? '🔑 واش عندك <b>مفتاح الترخيص</b> ؟ (اختياري للتجربة)' : '🔑 Avez-vous une <b>clé de licence</b> ? (facultatif pour le test bêta)',
-  keyVerifying: (t) => isArabic(t) ? '⏳ كن verificaو المفتاح ديالك…' : '⏳ Vérification de votre clé…',
-  keyValid: (t, pack) => isArabic(t) ? '✅ المفتاح صحيح — الباقة <b>' + (pack || '') + '</b> !\nكنفتحو لك الروابط دابا.' : '✅ Clé valide — pack <b>' + (pack || '') + '</b> !\nJe débloque maintenant les fichiers.',
-  keyInvalid: (t, err) => isArabic(t) ? '⚠️ المفتاح ماشي معروف : <i>' + (err || 'مفتاح خايب') + '</i>.\nللتجربة، تقدر تكمل بلا مفتاح (تجربة مجانية كاينة فـ التطبيق).\nواش بغيتي تكمل ؟' : '⚠️ Clé non reconnue : <i>' + (err || 'Clé invalide') + '</i>.\nPour ce test bêta, vous pouvez continuer sans clé (essai gratuit disponible dans l\u2019app).\nSouhaitez-vous continuer ?',
-  noKey: (t) => isArabic(t) ? '👍 ماشي مشكلة — التجربة المجانية كاينة فـ التطبيق.' : '👍 Pas de problème — l\u2019essai gratuit est disponible dans l\u2019application.',
-  sent: (t) => isArabic(t) ? '✅ الروابط وصلوك. جرب مزيان ! إلا كان مشكلة، تواصل مع الدعم.' : '✅ Lien envoyé. Bon test ! En cas de problème, contacte le support.',
-  androidNotReady: (t) => isArabic(t) ? '⚠️ رابط Android مزال ما مجهّزش. تواصل مع الدعم.' : '⚠️ Le lien Android n\u2019est pas encore configuré. Contacte le support.',
-  windowsNotReady: (t) => isArabic(t) ? '⚠️ روابط Windows مزالين ما مجهّزينش. تواصل مع الدعم.' : '⚠️ Les liens Windows ne sont pas encore configurés. Contacte le support.',
-  cancel: (t) => isArabic(t) ? '🔄 واخا لغينا. أرسل /start باش تبدا من اللول.' : '🔄 Processus annulé. Tapez /start pour recommencer.',
-  help: (t) => isArabic(t) ? 'ℹ️ <b>مساعدة AdFill</b>\n\nاختار موضوع أو سول على شي حاجة مباشرة :' : 'ℹ️ <b>Aide AdFill</b>\n\nChoisissez un sujet ou posez votre question directement :',
-  fallback: (t) => isArabic(t) ? '🤖 سول على شي حاجة أو أرسل /aide باش تشوف المواضيع.\nباش تبدا، أرسل /start.' : '🤖 Posez votre question ou tapez /aide pour voir les sujets disponibles.\nPour commencer, tapez /start.',
-  unknownCmd: (t) => isArabic(t) ? 'أمر ما مفهمش. أرسل /start أو /aide' : 'Commande inconnue. Tapez /start ou /aide',
+  welcome: (lang) => lang === 'ar' ? 'مرحبا بيك فـ AdFill ! 🚀\n\nAdFill كيملأ إعلاناتك بشكل تلقائي على Avito.ma.\n\nجرب التطبيق وقولنا رأيك !' : CONFIG.welcomeText,
+  platformChoice: (lang, p) => lang === 'ar' ? '📱 واخا اختاريتي : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nباش تحصل على الروابط، سجّل راسك :\n📞 أرسل <b>رقم التيليفون ديالك</b> (مع الكود الدولي) :' : '📱 Merci pour votre choix : <b>' + (p === 'android' ? 'Android' : 'Windows') + '</b>.\n\nPour débloquer les fichiers, enregistrez-vous :\n📞 Envoyez votre <b>numéro de téléphone</b> (avec indicatif) :',
+  invalidPhone: (lang) => lang === 'ar' ? '⚠️ هاد ماشي رقم صحيح. أرسل رقم مع الكود، مثال : +212 6 12 34 56 78' : '⚠️ Ce numéro ne semble pas valide. Envoyez un numéro avec indicatif, ex : +212 6 12 34 56 78',
+  phoneUsed: (lang) => lang === 'ar' ? '⚠️ هاد الرقم مسجل عند حساب خر. استعمل رقم خر أو تواصل مع الدعم.' : '⚠️ Ce numéro est déjà enregistré pour un autre compte. Utilisez un autre numéro ou contactez le support.',
+  otpSent: (lang, code) => lang === 'ar' ? '📱 <b>تأكيد الرقم</b>\n\nصيفطنا لك كود التأكيد على التيليفون ديالك عبر Telegram.\n\n🔑 الكود ديالك : <b>' + code + '</b>\n\nأرسل هاد الكود باش تأكد رقمك :' : '📱 <b>Vérification du numéro</b>\n\nUn code de vérification a été envoyé sur votre téléphone via Telegram.\n\n🔑 Votre code : <b>' + code + '</b>\n\nEnvoyez ce code pour valider votre numéro :',
+  otpWrong: (lang) => lang === 'ar' ? '❌ الكود ماشي صحيح. عاوتاني أو أرسل /annuler باش تبدا من اللول.' : '❌ Code incorrect. Réessayez ou envoyez /annuler pour recommencer.',
+  otpOk: (lang) => lang === 'ar' ? '✅ تم التأكد من الرقم ! دابا، <b>الاسم الكامل ديالك</b> :' : '✅ Numéro vérifié ! Maintenant, votre <b>nom et prénom</b> :',
+  invalidName: (lang) => lang === 'ar' ? '⚠️ الاسم قصير بزاف. أرسل الاسم الكامل ديالك، مثال : أحمد بنعلي' : '⚠️ Votre nom est un peu court. Envoyez votre nom et prénom, ex : Ahmed Benali',
+  askKey: (lang) => lang === 'ar' ? '🔑 واش عندك <b>مفتاح الترخيص</b> ؟ (اختياري للتجربة)' : '🔑 Avez-vous une <b>clé de licence</b> ? (facultatif pour le test bêta)',
+  keyVerifying: (lang) => lang === 'ar' ? '⏳ كن verificaو المفتاح ديالك…' : '⏳ Vérification de votre clé…',
+  keyValid: (lang, pack) => lang === 'ar' ? '✅ <b>مفتاح صحيح !</b>\nالباقة : ' + (pack || 'inconnue') + '\n\n🔑 الكود ديالك معتمد — تقدر تستعمل التطبيق بلا ماش.' : '✅ <b>Clé valide !</b>\nPack : ' + (pack || 'inconnu') + '\n\n🔑 Ta clé est approuvée — tu peux utiliser l\'application.',
+  keyInvalid: (lang, err) => lang === 'ar' ? '❌ <b>المفتاح ماشي صحيح.</b>\nالخطأ : ' + (err || 'غير معروف') + '\n\n🔑 عاوتاني أو جرب مع مفتاح خر.' : '❌ <b>Clé invalide.</b>\nErreur : ' + (err || 'inconnue') + '\n\n🔑 Réessaye ou essaie une autre clé.',
+  noKey: (lang) => lang === 'ar' ? '⏭️ واخا ! حسابك مسجل. المفتاح اختياري — تقدر تجرب التطبيق بلا ماش.' : '⏭️ Pas de problème ! Ton compte est enregistré. La clé est optionnelle.',
+  cancel: (lang) => lang === 'ar' ? '🛑 تم الإلغاء. أرسل /start باش تبدا من جديد.' : '🛑 Annulé. Tape /start pour recommencer.',
+  help: (lang) => lang === 'ar' ? '❓ <b>الأسئلة الشائعة</b>\n\nاختار الفئة ديال السؤال :' : '❓ <b>Questions fréquentes</b>\n\nChoisissez une catégorie :',
+  fallback: (lang) => lang === 'ar' ? '🤔 ما فهمتش. أرسل /start باش تبدا أو /aide للمساعدة.' : '🤔 Je ne suis pas sûr de comprendre. Tape /start pour commencer ou /aide pour de l\'aide.',
+  unknownCmd: (lang) => lang === 'ar' ? '⚠️ أمر ما معروفش. جرب /start أو /aide.' : '⚠️ Commande inconnue. Essaie /start ou /aide.',
 };
 
+// ---------------- Boutons ----------------
+function langKeyboard() {
+  return inlineKeyboard([
+    [{ text: '🇫🇷 Français', callback_data: 'lang:fr' }, { text: '🇲🇦 العربية', callback_data: 'lang:ar' }],
+  ]);
+}
+
+function clientTypeKeyboard(lang) {
+  const isNew = lang === 'ar' ? '🆕 عميل جديد' : '🆕 Nouveau client';
+  const isOld = lang === 'ar' ? '🔄 أنا عميل' : '🔄 Déjà inscrit';
+  return inlineKeyboard([
+    [{ text: isNew, callback_data: 'client:new' }],
+    [{ text: isOld, callback_data: 'client:old' }],
+  ]);
+}
+
+function platformKeyboardFr() {
+  return inlineKeyboard([
+    [{ text: '📱 Android', callback_data: 'pick:android' }],
+    [{ text: '💻 Windows', callback_data: 'pick:windows' }],
+  ]);
+}
+
 // ---------------- États de dialogue ----------------
-const states = new Map(); // telegramId -> { step, platform, otp }
+const states = new Map(); // telegramId -> { step, platform, otp, lang, email }
 
 // ---------------- Traitement des messages ----------------
 async function handleMessage(msg) {
@@ -361,44 +368,66 @@ async function handleMessage(msg) {
   const existing = getTester(tgId);
   const st = states.get(tgId) || { step: 'start' };
 
-  // Détecter et stocker la langue
-  if (text && !text.startsWith('/')) {
-    st.lang = isArabic(text) ? 'ar' : 'fr';
-    states.set(tgId, st);
-  }
-
+  // /start — Reset total
   if (text === '/start') {
-    if (existing && existing.platform) {
-      states.set(tgId, { step: 'done', platform: existing.platform });
-      await sendMessage(chatId, MSG.welcomeBack(text), registeredMenuKeyboard());
-      return;
-    }
-    states.set(tgId, { step: 'pick', platform: null });
-    await sendMessage(chatId, MSG.welcome(text), mainMenuKeyboard());
+    states.set(tgId, { step: 'lang' });
+    await sendMessage(chatId,
+      '👋 Bienvenue sur AdFill !\n\n choisissez votre langue :\n\n👋 مرحبا بيك فـ AdFill !\nاختار اللغة ديالك :',
+      langKeyboard()
+    );
     return;
   }
 
   if (text === '/aide' || text === '/help') {
-    await sendMessage(chatId, MSG.help(text), faqCategoryKeyboard());
+    const lang = st.lang || 'fr';
+    await sendMessage(chatId, MSG.help(lang), faqCategoryKeyboard(lang));
     return;
   }
 
   if (text === '/annuler') {
     states.set(tgId, { step: 'start' });
-    await sendMessage(chatId, MSG.cancel(text));
+    await sendMessage(chatId, MSG.cancel(st.lang || 'fr'));
     return;
   }
 
-  // ---- Saisie du téléphone ----
+  // ---- ÉTAPE 1 : Choix de la langue ----
+  if (st.step === 'lang') {
+    // Si tape directement au lieu de cliquer le bouton
+    st.lang = isArabic(text) ? 'ar' : 'fr';
+    states.set(tgId, st);
+    await sendMessage(chatId,
+      st.lang === 'ar' ? 'اخترت العربية ! 🇲🇦' : 'Français choisi ! 🇫🇷',
+    );
+    // Passer directement à "nouveau ou ancien"
+    st.step = 'client_type';
+    states.set(tgId, st);
+    const prompt = st.lang === 'ar'
+      ? 'واش نتا عميل جديد فـ AdFill walla خدام معانا أصلاً؟'
+      : 'Es-tu un nouveau client AdFill ou tu utilises déjà l\'application ?';
+    await sendMessage(chatId, prompt, clientTypeKeyboard(st.lang));
+    return;
+  }
+
+  // ---- ÉTAPE 2 : Nouveau ou ancien client ----
+  if (st.step === 'client_type') {
+    st.lang = isArabic(text) ? 'ar' : 'fr';
+    const q = st.lang === 'ar'
+      ? 'واش نتا عميل جديد فـ AdFill walla خدام معانا أصلاً؟'
+      : 'Es-tu un nouveau client AdFill ou tu utilises déjà l\'application ?';
+    await sendMessage(chatId, q, clientTypeKeyboard(st.lang));
+    return;
+  }
+
+  // ---- Saisie du téléphone (nouveau client) ----
   if (st.step === 'phone') {
     const phoneDigits = text.replace(/\D/g, '');
     if (phoneDigits.length < 8) {
-      await sendMessage(chatId, MSG.invalidPhone(text));
+      await sendMessage(chatId, MSG.invalidPhone(st.lang));
       return;
     }
     const existingPhone = findTesterByPhone(text);
     if (existingPhone && String(existingPhone.telegramId) !== tgId) {
-      await sendMessage(chatId, MSG.phoneUsed(text));
+      await sendMessage(chatId, MSG.phoneUsed(st.lang));
       return;
     }
 
@@ -409,7 +438,24 @@ async function handleMessage(msg) {
     st.phone = text;
     states.set(tgId, st);
 
-    await sendMessage(chatId, MSG.otpSent(text, otp));
+    await sendMessage(chatId, MSG.otpSent(st.lang, otp));
+    return;
+  }
+
+  // ---- Saisie email (nouveau client) ----
+  if (st.step === 'email') {
+    if (!text.includes('@') || !text.includes('.')) {
+      const msg = st.lang === 'ar' ? '⚠️ الإيميل ماشي صحيح. أرسل الإيميل ديالك بشكل صحيح.' : '⚠️ Email invalide. Envoie ton email correctement.';
+      await sendMessage(chatId, msg);
+      return;
+    }
+    st.email = text;
+    st.step = 'phone';
+    states.set(tgId, st);
+    const msg = st.lang === 'ar'
+      ? '✅ الإيميل تم تسجيلو ! دابا أرسل <b>رقم التيليفون ديالك</b> (مع الكود الدولي) :'
+      : '✅ Email enregistré ! Maintenant, envoie ton <b>numéro de téléphone</b> (avec indicatif) :';
+    await sendMessage(chatId, msg);
     return;
   }
 
@@ -417,14 +463,21 @@ async function handleMessage(msg) {
   if (st.step === 'otp') {
     const enteredOtp = text.replace(/\D/g, '');
     if (enteredOtp !== st.otp) {
-      await sendMessage(chatId, MSG.otpWrong(text));
+      await sendMessage(chatId, MSG.otpWrong(st.lang));
       return;
     }
 
-    // OTP valide — sauvegarder le téléphone
+    // OTP valide — sauvegarder
     const testers = loadTesters();
     const idx = testers.findIndex((t) => String(t.telegramId) === tgId);
-    const testerData = { telegramId: tgId, ...(getTester(tgId) || {}), phone: st.phone, updatedAt: new Date().toISOString() };
+    const testerData = {
+      telegramId: tgId,
+      ...(getTester(tgId) || {}),
+      phone: st.phone,
+      email: st.email || '',
+      lang: st.lang,
+      updatedAt: new Date().toISOString(),
+    };
     if (idx >= 0) testers[idx] = testerData; else testers.push(testerData);
     saveTesters(testers);
 
@@ -432,29 +485,32 @@ async function handleMessage(msg) {
     st.otp = null;
     states.set(tgId, st);
 
-    await sendMessage(chatId, MSG.otpOk(text));
+    await sendMessage(chatId, MSG.otpOk(st.lang));
     return;
   }
 
   // ---- Saisie du nom ----
   if (st.step === 'name') {
     if (text.length < 2) {
-      await sendMessage(chatId, MSG.invalidName(text));
+      await sendMessage(chatId, MSG.invalidName(st.lang));
       return;
     }
     const testers = loadTesters();
     const idx = testers.findIndex((t) => String(t.telegramId) === tgId);
     const tester = testers[idx];
     tester.name = text;
-    tester.platform = st.platform;
     tester.events = tester.events || [];
     tester.events.push({ date: new Date().toISOString(), event: 'registered' });
     saveTesters(testers);
-    logEvent(tester, 'activation', { phone: tester.phone, name: text, platform: st.platform });
+    logEvent(tester, 'activation', { phone: tester.phone, name: text, email: tester.email, lang: st.lang });
 
-    st.step = 'key';
+    st.step = 'platform';
     states.set(tgId, st);
-    await sendMessage(chatId, MSG.askKey(text), keyKeyboard());
+
+    const askPlatform = st.lang === 'ar'
+      ? 'واخا <b>' + text + '</b> ! دابا واش كتستخدم Android ولا Windows ؟'
+      : 'Merci <b>' + text + '</b> ! Quelle plateforme utilises-tu ?';
+    await sendMessage(chatId, askPlatform, platformKeyboardFr());
     return;
   }
 
@@ -462,7 +518,7 @@ async function handleMessage(msg) {
   if (st.step === 'key') {
     const trimmed = text.trim();
     if (!trimmed) return;
-    await sendMessage(chatId, MSG.keyVerifying(text));
+    await sendMessage(chatId, MSG.keyVerifying(st.lang));
     const result = await validateLicenseKey(trimmed);
 
     const testers = loadTesters();
@@ -474,21 +530,51 @@ async function handleMessage(msg) {
       tester.licensePack = result.pack_slug || '';
       saveTesters(testers);
       logEvent(tester, 'license_ok', { pack: tester.licensePack });
-      await sendMessage(chatId, MSG.keyValid(text, result.pack_slug));
+      await sendMessage(chatId, MSG.keyValid(st.lang, result.pack_slug));
     } else {
-      const err = (result && result.error) || (isArabic(text) ? 'مفتاح غير صالح' : 'Clé invalide');
+      const err = (result && result.error) || (st.lang === 'ar' ? 'مفتاح خايب' : 'Clé invalide');
       tester.licenseKeyHash = hashKey(trimmed);
       tester.licenseValid = false;
       saveTesters(testers);
       logEvent(tester, 'license_invalid', { error: err });
-      await sendMessage(chatId, MSG.keyInvalid(text, err), keyKeyboard());
-      states.set(tgId, { step: 'key', platform: st.platform });
+      await sendMessage(chatId, MSG.keyInvalid(st.lang, err), keyKeyboard());
+      states.set(tgId, { step: 'key', platform: st.platform, lang: st.lang });
       return;
     }
 
     tester.platform = st.platform;
-    states.set(tgId, { step: 'done', platform: st.platform });
+    states.set(tgId, { step: 'done', platform: st.platform, lang: st.lang });
     await unlock(chatId, tester);
+    return;
+  }
+
+  // ---- Ancien client : vérification téléphone ----
+  if (st.step === 'verify_old') {
+    const phoneDigits = text.replace(/\D/g, '');
+    const testers = loadTesters();
+    const match = testers.find((t) => String(t.phone || '').replace(/\D/g, '') === phoneDigits && t.platform);
+
+    if (!match) {
+      const msg = st.lang === 'ar'
+        ? '❌ هاد الرقم ما مسجلش عندنا. تأكد من الرقم أو تواصل مع الدعم.\n\nأرسل /start باش تبدا من جديد.'
+        : '❌ Ce numéro n\'est pas enregistré chez nous. Vérifie le numéro ou contacte le support.\n\nTape /start pour recommencer.';
+      await sendMessage(chatId, msg);
+      return;
+    }
+
+    // Trouvé ! Donner accès
+    match.lastLogin = new Date().toISOString();
+    saveTesters(testers);
+    logEvent(match, 'login_verified', { phone: match.phone });
+
+    states.set(tgId, { step: 'done', platform: match.platform, lang: st.lang });
+    await unlock(chatId, match);
+    return;
+  }
+
+  // ---- Choix du pack (clé) ----
+  if (st.step === 'key_choice') {
+    // Ignorer le texte, gérer par callbacks
     return;
   }
 
@@ -499,52 +585,48 @@ async function handleMessage(msg) {
 
     // Détection demande de téléchargement
     const downloadKeywords = ['télécharger', 'telecharger', 'download', 'apk', 'exe', 'lien', 'liens',
-      'حمّل', 'تحميل', 'رابط', 'روابط', 'تنزيل', ' скачат', 'get', 'link', 'envoi', 'envoyer'];
+      'حمّل', 'تحميل', 'رابط', 'روابط', 'تنزيل', ' link', 'get', 'envoi', 'envoyer'];
     const isDownloadRequest = downloadKeywords.some((kw) => lowerText.includes(kw));
 
     if (isDownloadRequest && existing && existing.platform) {
-      // Client inscrit → envoi direct du lien
       await unlock(chatId, existing);
       return;
     }
 
     if (isDownloadRequest && (!existing || !existing.platform)) {
-      // Nouveau → guide vers /start
-      const msg = isArabic(lang)
-        ? '📥 باش تحمل التطبيق، سير بالخطوات البسيطة :\n\n1️⃣ أرسل /start\n2️⃣ اختار Android أو Windows\n3️⃣ سجّل رقمك وسميك\n4️⃣ غادي تحصل على الرابط مباشرة !\n\nواخا ؟ أرسل /start'
-        : '📥 Pour télécharger, suis ces étapes simples :\n\n1️⃣ Tape /start\n2️⃣ Choisis Android ou Windows\n3️⃣ Enregistre ton numéro et nom\n4️⃣ Tu reçois le lien directement !\n\nPrêt ? Tape /start';
+      const msg = lang === 'ar'
+        ? '📥 باش تحمل التطبيق، أرسل /start واتبع الخطوات!'
+        : '📥 Pour télécharger, tape /start et suis les étapes !';
       await sendMessage(chatId, msg);
       return;
     }
 
-    // Détection demande d'aide / installation / problème
+    // Détection problème / aide
     const helpKeywords = ['installer', 'installation', 'marche pas', 'problème', 'erreur', 'crash',
       'تثبيت', 'ما خدامش', 'مشكلة', 'خطأ', 'bug', 'aide', 'comment'];
     const isHelpRequest = helpKeywords.some((kw) => lowerText.includes(kw));
 
-    if (isHelpRequest && existing && existing.platform) {
-      // Client inscrit avec problème → propose le support
-      const msg = isArabic(lang)
-        ? '🔧 باش تحل مشكلتك :\n\n1️⃣ أعد تشغيل التطبيق\n2️⃣ تأكد أن Android/Windows محدث\n3️⃣ إلا بقات المشكلة، تواصل معنا :\n📧 adfillpro@gmail.com\n\nصيفط لي وصف م详细 للمشكلة وغادي نعاونك!'
-        : '🔧 Pour résoudre ton problème :\n\n1️⃣ Redémarre l\'application\n2️⃣ Vérifie que ton Android/Windows est à jour\n3️⃣ Si le problème persiste, contacte-nous :\n📧 adfillpro@gmail.com\n\nDécris ton problème en détail et on t\'aide !';
+    if (isHelpRequest) {
+      const msg = lang === 'ar'
+        ? '🔧 باش تحل مشكلتك :\n1️⃣ أعد تشغيل التطبيق\n2️⃣ تأكد أن Android/Windows محدث\n3️⃣ تواصل معنا : adfillpro@gmail.com'
+        : '🔧 Pour résoudre ton problème :\n1️⃣ Redémarre l\'app\n2️⃣ Vérifie que ton OS est à jour\n3️⃣ Contacte-nous : adfillpro@gmail.com';
       await sendMessage(chatId, msg);
       return;
     }
 
-    // Détection tentative d'abus / spam / hors-sujet
-    const abusePatterns = ['hack', 'crack', 'gratuit forever', 'pirate', 'free premium', 'contourner', 'bypass',
-      'كلمات عشوائية', '-test', 'test test', '123', 'abc'];
+    // Détection abus
+    const abusePatterns = ['hack', 'crack', 'free premium', 'pirate', '123', 'abc', 'test test'];
     const isAbuse = abusePatterns.some((p) => lowerText.includes(p));
 
     if (isAbuse) {
-      const msg = isArabic(lang)
-        ? '🤔 واش كت testa البوت ؟ AdFill متاح للجميع!\n\n📥 باش تحمل : أرسل /start\n💬 للأسئلة : كتب سؤالك مباشرة\n📧 للدعم : adfillpro@gmail.com'
-        : '🤔 On dirait que tu testes le bot. AdFill est disponible pour tous !\n\n📥 Pour télécharger : tape /start\n💬 Pour des questions : écris directement\n📧 Pour le support : adfillpro@gmail.com';
+      const msg = lang === 'ar'
+        ? '🤔 واش كت testa البوت؟ AdFill متاح للجميع!\n📥 أرسل /start باش تحمل'
+        : '🤔 Tu testes le bot ? AdFill est pour tous !\n📥 Tape /start pour télécharger';
       await sendMessage(chatId, msg);
       return;
     }
 
-    // IA Groq pour les vraies questions
+    // IA Groq
     const reply = await askAI(text, tgId);
     if (reply) {
       const safe = reply.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -553,7 +635,7 @@ async function handleMessage(msg) {
     }
   }
 
-  await sendMessage(chatId, MSG.fallback(text));
+  await sendMessage(chatId, MSG.fallback(st.lang || 'fr'));
 }
 
 // ---------------- Callbacks (boutons inline) ----------------
@@ -562,40 +644,77 @@ async function handleCallback(query) {
   const tgId = String(query.from.id);
   const data = query.data;
   const existing = getTester(tgId);
-  const st = states.get(tgId) || { step: 'pick', platform: existing && existing.platform ? existing.platform : null };
+  const st = states.get(tgId) || { step: 'start' };
 
   // Acknowledgement du clic
   await callApi('answerCallbackQuery', { callback_query_id: query.id });
 
-  if (data === 'pick:android' || data === 'pick:windows') {
-    const platform = data.split(':')[1];
-    if (existing && existing.platform) {
-      existing.platform = platform;
-      const testers = loadTesters();
-      const idx = testers.findIndex((t) => String(t.telegramId) === tgId);
-      if (idx >= 0) testers[idx] = existing;
-      saveTesters(testers);
-      states.set(tgId, { step: 'done', platform });
-      logEvent(existing, 'pick', { platform });
-      await unlock(chatId, existing);
-      return;
-    }
-    st.platform = platform;
-    st.step = 'phone';
+  // ---- Choix langue ----
+  if (data === 'lang:fr' || data === 'lang:ar') {
+    st.lang = data === 'lang:ar' ? 'ar' : 'fr';
+    st.step = 'client_type';
     states.set(tgId, st);
-    await sendMessage(chatId, MSG.platformChoice(text, platform));
+    await sendMessage(chatId,
+      st.lang === 'ar' ? 'اخترت العربية ! 🇲🇦' : 'Français choisi ! 🇫🇷'
+    );
+    const msg = st.lang === 'ar'
+      ? 'واش نتا عميل جديد فـ AdFill walla خدام معانا أصلاً؟'
+      : 'Es-tu un nouveau client AdFill ou tu utilises déjà l\'application ?';
+    await sendMessage(chatId, msg, clientTypeKeyboard(st.lang));
     return;
   }
 
+  // ---- Nouveau ou ancien client ----
+  if (data === 'client:new') {
+    const lang = st.lang || 'fr';
+    st.step = 'email';
+    states.set(tgId, st);
+    const msg = lang === 'ar'
+      ? '🆕 واخا ! دابا سجل راسك.\n\nأول حاجة : أرسل <b>الإيميل ديالك</b> :'
+      : '🆕 Parfait ! Enregistre-toi.\n\nD\'abord, envoie ton <b>email</b> :';
+    await sendMessage(chatId, msg);
+    return;
+  }
+
+  if (data === 'client:old') {
+    const lang = st.lang || 'fr';
+    st.step = 'verify_old';
+    states.set(tgId, st);
+    const msg = lang === 'ar'
+      ? '🔄 واخا ! أرسل <b>رقم التيليفون</b> ديالك المسجل عندنا باش نتحققو من حسابك :'
+      : '🔄 D\'accord ! Envoie le <b>numéro de téléphone</b> enregistré chez nous pour vérifier ton compte :';
+    await sendMessage(chatId, msg);
+    return;
+  }
+
+  // ---- Choix plateforme ----
+  if (data === 'pick:android' || data === 'pick:windows') {
+    const platform = data.split(':')[1];
+    const lang = st.lang || 'fr';
+    st.platform = platform;
+    st.step = 'phone';
+    states.set(tgId, st);
+    const msg = lang === 'ar'
+      ? '📱 واخا اختاريتي : <b>' + (platform === 'android' ? 'Android' : 'Windows') + '</b>.\n\nباش تحصل على الروابط، سجّل راسك :\n📞 أرسل <b>رقم التيليفون ديالك</b> (مع الكود الدولي) :'
+      : '📱 Merci pour ton choix : <b>' + (platform === 'android' ? 'Android' : 'Windows') + '</b>.\n\nPour débloquer les liens, enregistre-toi :\n📞 Envoie ton <b>numéro de téléphone</b> (avec indicatif) :';
+    await sendMessage(chatId, msg);
+    return;
+  }
+
+  // ---- Clé de licence ----
   if (data === 'key:yes') {
+    const lang = st.lang || 'fr';
     st.step = 'key';
     states.set(tgId, st);
-    const lang = st.lang || 'fr';
-    await sendMessage(chatId, isArabic(lang) ? '🔑 أرسل <b>مفتاح الترخيص ديالك</b> (مثال : ADFILL-XXXX-XXXX) :' : '🔑 Envoyez votre <b>clé de licence</b> (ex : ADFILL-XXXX-XXXX) :');
+    const msg = lang === 'ar'
+      ? '🔑 أرسل <b>مفتاح الترخيص ديالك</b> (مثال : ADFILL-XXXX-XXXX) :'
+      : '🔑 Envoie ta <b>clé de licence</b> (ex : ADFILL-XXXX-XXXX) :';
+    await sendMessage(chatId, msg);
     return;
   }
 
   if (data === 'key:no') {
+    const lang = st.lang || 'fr';
     const testers = loadTesters();
     const idx = testers.findIndex((t) => String(t.telegramId) === tgId);
     const tester = testers[idx];
@@ -607,7 +726,10 @@ async function handleCallback(query) {
     }
     st.step = 'done';
     states.set(tgId, st);
-    await sendMessage(chatId, MSG.noKey(text));
+    const msg = lang === 'ar'
+      ? '⏭️ واخا ! حسابك مسجل. المفتاح اختياري — تقدر تجرب التطبيق بلا ماش.'
+      : '⏭️ Pas de problème ! Ton compte est enregistré. La clé est optionnelle — tu peux tester l\'app.';
+    await sendMessage(chatId, msg);
     await unlock(chatId, tester || { telegramId: tgId, platform: st.platform });
     return;
   }
@@ -630,8 +752,8 @@ async function handleCallback(query) {
     const cat = FAQ_DATA.categories.find((c) => c.id === catId);
     if (!cat) return;
     const lang = st.lang || 'fr';
-    const catLabel = isArabic(lang) && cat.ar_label ? cat.ar_label : cat.label;
-    const chooseQ = isArabic(lang) ? 'اختر سؤالاً :' : 'Choisissez une question :';
+    const catLabel = lang === 'ar' && cat.ar_label ? cat.ar_label : cat.label;
+    const chooseQ = lang === 'ar' ? 'اختر سؤالاً :' : 'Choisissez une question :';
     await callApi('editMessageText', {
       chat_id: chatId,
       message_id: query.message.message_id,
@@ -650,10 +772,10 @@ async function handleCallback(query) {
     if (!cat || !cat.questions[qIdx]) return;
     const q = cat.questions[qIdx];
     const lang = st.lang || 'fr';
-    const answer = isArabic(lang) && q.ar_answer ? q.ar_answer : q.answer;
-    const catLabel = isArabic(lang) && cat.ar_label ? cat.ar_label : cat.label;
-    const backLabel = isArabic(lang) ? 'العودة إلى ' + catLabel : '◀️ Retour à ' + catLabel;
-    const homeLabel = isArabic(lang) ? '🏠 قائمة المساعدة' : '🏠 Menu aide';
+    const answer = lang === 'ar' && q.ar_answer ? q.ar_answer : q.answer;
+    const catLabel = lang === 'ar' && cat.ar_label ? cat.ar_label : cat.label;
+    const backLabel = lang === 'ar' ? 'العودة إلى ' + catLabel : '◀️ Retour à ' + catLabel;
+    const homeLabel = lang === 'ar' ? '🏠 قائمة المساعدة' : '🏠 Menu aide';
     await callApi('editMessageText', {
       chat_id: chatId,
       message_id: query.message.message_id,
@@ -667,7 +789,7 @@ async function handleCallback(query) {
     return;
   }
 
-  await sendMessage(chatId, MSG.unknownCmd(text));
+  await sendMessage(chatId, MSG.unknownCmd(st.lang || 'fr'));
 }
 
 // ---------------- Boucle de polling ----------------
