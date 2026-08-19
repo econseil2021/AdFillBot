@@ -3,9 +3,9 @@
   "apkVersion": "1.9.13",
   "channelLink": "",
   "channelName": "AdFill Bêta",
-  "androidLink": "https://tinyurl.com/AdFill-apk",
+  "androidLink": "https://tinyurl.com/AdFillPro-Apk",
   "windowsLinks": [
-    "https://tinyurl.com/AdFill-exe"
+    "https://tinyurl.com/AdFillPro-exe"
   ],
   "welcomeText": "Bienvenue dans la bêta AdFill 🚀\n\nAdFill automatise le remplissage de vos annonces sur Avito.ma.\n\nTestez l'application et donnez-nous votre avis !",
   "instructionsText": "📦 {apkVersion} — Instructions d'installation\n\n📱 Android :\n- Autoriser l'installation d'applications inconnues (Paramètres → Sécurité)\n- Ouvrir le fichier APK téléchargé\n- Saisir votre clé de licence ou démarrer l'essai gratuit\n\n💻 Windows :\n- Télécharger l'EXE depuis les liens envoyés\n- Lancer AdFill\n- Saisir votre clé de licence ou démarrer l'essai gratuit"
