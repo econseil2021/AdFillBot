@@ -158,28 +158,89 @@ async function sendMessage(chatId, text, replyMarkup) {
 
 function inlineKeyboard(rows) { return JSON.stringify({ inline_keyboard: rows }); }
 
-// ---------------- Envoi des liens ----------------
-async function sendAndroidLink(chatId) {
+// ---------------- Envoi des liens + guide d'installation ----------------
+async function sendAndroidLink(chatId, lang) {
   const link = CONFIG.androidLink;
   if (!link) { await sendMessage(chatId, '⚠️ Lien Android non configuré. Contacte le support.'); return; }
+
+  // Étape 1 : le lien
   await sendMessage(chatId,
     '📱 <b>AdFill v' + CONFIG.apkVersion + ' — Android</b>\n\n' +
-    '⬇️ Télécharge et installe :\n👉 ' + link + '\n\n' +
-    '💡 <i>Active l\'installation depuis sources inconnues si nécessaire.</i>');
+    (lang === 'ar'
+      ? '⬇️ <b>Étape 1 :</b> Clique sur le lien pour télécharger :\n👉 ' + link
+      : '⬇️ <b>Étape 1 :</b> Clique sur le lien pour télécharger :\n👉 ' + link));
+
+  // Étape 2 : avertissement navigateur
+  await sendMessage(chatId,
+    '⚠️ <b>' + (lang === 'ar' ? 'Étape 2 : Autoriser le téléchargement' : 'Étape 2 : Autoriser le téléchargement') + '</b>\n\n' +
+    (lang === 'ar'
+      ? 'Ton téléphone va afficher un avertissement :\n\n🔴 <i>"Ce fichier peut être nocif"</i>\n\n✅ Clique <b>"Quand même"</b> ou <b>"Télécharger"</b> — c\'est normal, c\'est un APK hors Play Store.'
+      : 'Ton téléphone va afficher un avertissement :\n\n🔴 <i>"Ce fichier peut être nocif"</i>\n\n✅ Clique <b>"Quand même"</b> ou <b>"Télécharger"</b> — c\'est normal, c\'est un APK hors Play Store.'));
+
+  // Étape 3 : installation bloquée
+  await sendMessage(chatId,
+    '🔒 <b>' + (lang === 'ar' ? 'Étape 3 : Autoriser l\'installation' : 'Étape 3 : Autoriser l\'installation') + '</b>\n\n' +
+    (lang === 'ar'
+      ? 'Si l\'installation est bloquée :\n\n1️⃣ Clique <b>"Paramètres"</b> quand le message s\'affiche\n2️⃣ Active <b>"Sources inconnues"</b> ou <b>"Installer les apps inconnues"</b> pour ton navigateur\n3️⃣ Reviens et clique <b>"Installer"</b>\n\n'
+        + '📌 <i>Samsung : Paramètres → Sécurité → Sources inconnues</i>\n'
+        + '📌 <i>Xiaomi/Redmi : Paramètres → Apps → Apps supplémentaires → Sources inconnues</i>\n'
+        + '📌 <i>Huawei : Paramètres → Sécurité → Autoriser installation apps tierces</i>'
+      : 'Si l\'installation est bloquée :\n\n1️⃣ Clique <b>"Paramètres"</b> quand le message s\'affiche\n2️⃣ Active <b>"Sources inconnues"</b> ou <b>"Autoriser cette source"</b> pour ton navigateur\n3️⃣ Reviens et clique <b>"Installer"</b>\n\n'
+        + '📌 <i>Samsung : Paramètres → Sécurité → Sources inconnues</i>\n'
+        + '📌 <i>Xiaomi/Redmi : Paramètres → Apps → Apps supplémentaires → Sources inconnues</i>\n'
+        + '📌 <i>Huawei : Paramètres → Sécurité → Autoriser installation apps tierces</i>'));
+
+  // Étape 4 : ouvrir
+  await sendMessage(chatId,
+    '🚀 <b>' + (lang === 'ar' ? 'Étape 4 : Ouvre l\'app !' : 'Étape 4 : Ouvre l\'app !') + '</b>\n\n' +
+    (lang === 'ar'
+      ? 'Une fois installé :\n1️⃣ Clique <b>"Ouvrir"</b>\n2️⃣ L\'app te demande le <b>nom du contact</b> et le <b>téléphone</b> — remplis-les\n3️⃣ Tu es prêt ! 🎉\n\n'
+        + '💡 <i>L\'app ne se trouve PAS sur le Play Store — garde l\'APK téléchargé si tu dois réinstaller.</i>'
+      : 'Une fois installé :\n1️⃣ Clique <b>"Ouvrir"</b>\n2️⃣ L\'app te demande le <b>nom du contact</b> et le <b>téléphone</b> — remplis-les\n3️⃣ Tu es prêt ! 🎉\n\n'
+        + '💡 <i>L\'app ne se trouve PAS sur le Play Store — garde l\'APK si tu dois réinstaller.</i>'));
 }
 
-async function sendWindowsLink(chatId) {
+async function sendWindowsLink(chatId, lang) {
   const links = CONFIG.windowsLinks || [];
   if (!links.length) { await sendMessage(chatId, '⚠️ Liens Windows non configurés.'); return; }
+
+  // Étape 1 : lien
   await sendMessage(chatId,
     '💻 <b>AdFill v' + CONFIG.apkVersion + ' — Windows</b>\n\n' +
-    '⬇️ Télécharge l\'EXE :\n' + links.map((l) => '👉 ' + l).join('\n') + '\n\n' +
-    '💡 <i>Portable = zéro installation. Setup = installation classique.</i>');
+    '⬇️ <b>' + (lang === 'ar' ? 'Étape 1' : 'Étape 1') + ' :</b> ' +
+    (lang === 'ar' ? 'Clique pour télécharger :' : 'Clique pour télécharger :') + '\n' +
+    links.map((l) => '👉 ' + l).join('\n'));
+
+  // Étape 2 : SmartScreen
+  await sendMessage(chatId,
+    '🛡️ <b>' + (lang === 'ar' ? 'Étape 2 : Windows Defender SmartScreen' : 'Étape 2 : Windows Defender SmartScreen') + '</b>\n\n' +
+    (lang === 'ar'
+      ? 'Windows va probablement bloquer l\'exécution :\n\n🔴 <i>"Windows a protégé votre ordinateur"</i>\n\n1️⃣ Clique <b>"Informations complémentaires"</b>\n2️⃣ Clique <b>"Exécuter quand même"</b>\n\n'
+        + '💡 <i>C\'est normal — l\'app n\'est pas signée par Microsoft.</i>'
+      : 'Windows va probablement bloquer l\'exécution :\n\n🔴 <i>"Windows a protégé votre ordinateur"</i>\n\n1️⃣ Clique <b>"Informations complémentaires"</b>\n2️⃣ Clique <b>"Exécuter quand même"</b>\n\n'
+        + '💡 <i>C\'est normal — l\'app n\'est pas signée par Microsoft.</i>'));
+
+  // Étape 3 : portable
+  await sendMessage(chatId,
+    '📂 <b>' + (lang === 'ar' ? 'Étape 3 : Portable (zéro installation)' : 'Étape 3 : Portable (zéro installation)') + '</b>\n\n' +
+    (lang === 'ar'
+      ? 'L\'app est portable — elle se lance sans installer :\n\n'
+        + '1️⃣ Double-clique sur <b>AdFill-*.exe</b>\n'
+        + '2️⃣ Une fenêtre de navigateur s\'ouvre automatiquement\n'
+        + '3️⃣ Connecte-toi à ton compte Avito dans le navigateur\n'
+        + '4️⃣ Lance le remplissage depuis l\'interface\n\n'
+        + '💡 <i>Tu peux déplacer le .exe n\'importe où — il est autonome.</i>'
+      : 'L\'app est portable — elle se lance sans installer :\n\n'
+        + '1️⃣ Double-clique sur <b>AdFill-*.exe</b>\n'
+        + '2️⃣ Une fenêtre de navigateur s\'ouvre automatiquement\n'
+        + '3️⃣ Connecte-toi à ton compte Avito dans le navigateur\n'
+        + '4️⃣ Lance le remplissage depuis l\'interface\n\n'
+        + '💡 <i>Tu peux déplacer le .exe n\'importe où — il est autonome.</i>'));
 }
 
 async function unlock(chatId, lang, platform) {
-  if (platform === 'android') await sendAndroidLink(chatId);
-  else await sendWindowsLink(chatId);
+  if (platform === 'android') await sendAndroidLink(chatId, lang);
+  else await sendWindowsLink(chatId, lang);
   const msg = lang === 'ar'
     ? '🚀 <b>هاك الروابط — جرب دابا!</b>\n\nواش عندك مشكلة ؟ تواصل معنا :\n📧 adfillpro@gmail.com'
     : '🚀 <b>Voilà — bon test !</b>\n\nDes questions ? Contacte-nous :\n📧 adfillpro@gmail.com';
